@@ -1,0 +1,139 @@
+{% style %}
+  marquee {
+    background: {{ section.settings.marquee-color }};
+  }
+
+  marquee div {
+    display: flex;
+    align-items: center;
+    column-gap: {{ section.settings.margin }}px;
+    height: {{ section.settings.height }}px;
+    padding: {{ section.settings.padding }}px 0;
+    font-size: {{ section.settings.text-size }}px;
+    line-height: {{ section.settings.text-size }}px;
+    font-weight: bold;
+  }
+{% endstyle %}
+
+<marquee
+  behavior="alternate"
+  width="100%"
+  scrolldelay="60">
+  <div>
+    {% for i in (1..2) %}
+      {% for block in section.blocks %}
+        {% if block.type == 'text' %}
+          <span
+            style="color: {{ block.settings.text-color }};">
+            {{ block.settings.text }}
+          </span>
+          {% if block.settings.icon != blank %}
+            <img
+              src="{{ block.settings.icon | image_url }}" loading="lazy"/>
+          {% endif %}
+        {% else %}
+          <img
+            src="{{ block.settings.image | image_url }}" loading="lazy" height="100%"/>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+</marquee>
+
+{% schema %}
+
+  {
+    "name": "new-marqee",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+      {
+        "type": "range",
+        "id": "height",
+        "min": 20,
+        "max": 400,
+        "step": 10,
+        "unit": "px",
+        "label": "Altura do letreiro",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "padding",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Preenchimento vertical do letreiro",
+        "default": 0
+      },
+      {
+        "type": "color",
+        "id": "marquee-color",
+        "label": "Cor do fundo do letreiro"
+      },
+      {
+        "type": "range",
+        "id": "margin",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Espaço entre os blocos do letreiro",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "text-size",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Tamanho da letra",
+        "default": 16
+      }
+    ],
+    "blocks": [
+      {
+        "type": "text",
+        "name": "Frase",
+        "settings": [
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Frase do letreiro"
+          }, {
+            "type": "color",
+            "id": "text-color",
+            "label": "Cor da frase"
+          }, {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Ícone da frase"
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "name": "Imagem",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Escolha a imagem"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "new-marqee",
+        "blocks": [
+          {
+            "type": "text"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
