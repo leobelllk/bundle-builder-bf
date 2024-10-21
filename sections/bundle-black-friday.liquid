@@ -1,11 +1,7 @@
 {% for product in collections.all.products %}
-  {% render 'card-product',
-    card_product: product,
-    media_aspect_ratio: 1,
-    show_secondary_image: true,
-    section_id: section.id,
-    quick_add: true
-  %}
+  {{ product.featured_image | image_url }}
+  {{ product.title }}
+  {{ product.price }}
 {% endfor %}
 
 {% schema %}
