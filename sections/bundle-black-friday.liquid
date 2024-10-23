@@ -35,9 +35,11 @@
 
 <script>
   const productsData = {
-    {% for product in collections.all.products %}
+    {% for product in section.settings.collection.products %}
       "{{ product.handle }}": {
         id: {{ product.id }},
+        variants: [{% for variant in product.variants %}{{ variant.id }}{% unless forloop.last %}, {% endunless %}{% endfor %}],
+        options: [{% unless product.has_only_default_variant %}{% for option in product.options_with_values %}{{ option.name }}{% unless forloop.last %}, {% endunless %}{% endfor %}{% endunless %}],
         title: "{{ product.title }}",
         price: {{ product.price }},
         image: "{{ product.featured_image | image_url: width: 200 }}"
@@ -92,9 +94,33 @@
       const selectedProductsList = document.querySelector('.selected-bundle-products');
       selectedProductsList.innerHTML = ''; // Limpa a lista
 
-      selectedProductsQty.forEach(product => {
+      selectedProductsQty.forEach(item => {
+        const product = productsData[item.handle];
+
+        const qty = calculateQty();
+        let discount = 1;
+
+        switch (qty) {
+          case 1:
+            discount = 0.95; // 5% de desconto
+            break;
+          case 2:
+            discount = 0.90; // 10% de desconto
+            break;
+          case 3:
+            discount = 0.85; // 15% de desconto
+            break;
+          default:
+            if (qty >= 4) {
+              discount = 0.80; // 20% de desconto para 4 itens ou mais
+            }
+            break;
+        }
+        const totalPrice = (item.quantity*product.price/100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        const discountedPrice = (discount*item.quantity*product.price/100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        
         const listItem = document.createElement('li');
-        listItem.textContent = `${product.quantity}x ${product.title}`;
+        listItem.textContent = `${item.quantity}x ${product.title} ${totalPrice} ${discountedPrice}`;
         selectedProductsList.appendChild(listItem);
       });
     }
@@ -107,7 +133,7 @@
         
         // Adiciona o produto ao array selectedProducts
         selectedProducts.push({
-          id: product.id,
+          id: product.variants[0],
           image: product.image
         });
 
@@ -115,7 +141,7 @@
         updatePreviewImages();
 
         // Verificar se o produto já está no array
-        const existingProduct = selectedProductsQty.find(element => element.id === product.id);
+        const existingProduct = selectedProductsQty.find(element => element.id === product.variants[0]);
 
         if (existingProduct) {
           // Adiciona 1 na quantidade do produto encontrado
@@ -123,9 +149,9 @@
         } else {
           // Adiciona o produto ao array selectedProductsQty
           selectedProductsQty.push({
-            id: product.id,
+            id: product.variants[0],
             quantity: 1, // Iniciando a quantidade com 1
-            title: product.title
+            handle: productHandle
           });
         }
 
@@ -141,7 +167,7 @@
         const product = productsData[productHandle];
 
         // Verificar se o produto está no array e removê-lo
-        const productIndex = findLastProductIndex(selectedProducts, product.id);
+        const productIndex = findLastProductIndex(selectedProducts, product.variants[0]);
         if (productIndex !== -1) {
           // Remove o produto do array selectedProducts
           selectedProducts.splice(productIndex, 1);
@@ -151,7 +177,7 @@
         updatePreviewImages();
 
         // Verificar se o produto já está no array
-        const existingProduct = selectedProductsQty.find(element => element.id === product.id);
+        const existingProduct = selectedProductsQty.find(element => element.id === product.variants[0]);
         
         if(!existingProduct) {
           return;
@@ -162,7 +188,7 @@
           existingProduct.quantity -= 1;
         } else {
           // Remove o produto do array selectedProductsQty
-          const indexToRemove = selectedProductsQty.findIndex(element => element.id === product.id);  
+          const indexToRemove = selectedProductsQty.findIndex(element => element.id === product.variants[0]);  
           selectedProductsQty.splice(indexToRemove, 1);
         }
 
