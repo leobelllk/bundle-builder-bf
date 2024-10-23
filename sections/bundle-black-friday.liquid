@@ -1,13 +1,213 @@
-{% for product in collections.all.products %}
-  {{ product.featured_image | image_url }}
-  {{ product.title }}
-  {{ product.price }}
-{% endfor %}
+{{ 'component-bundle-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-bundle-section.css' | asset_url | stylesheet_tag }}
+{% liquid
+  assign variants_available_arr = section.settings.collection.products | map: 'available'
+%}
+
+<div class="page-width">
+  <div class="preview-products">
+    {% for i in (1..4) %}
+      <div class="preview-product" id="preview-{{ forloop.index }}">
+        <div class="preview-image-wrapper">
+          <img class="preview-image" src="">
+        </div>
+        {{- 'icon-locker.svg' | inline_asset_content -}}
+      </div>
+    {% endfor %}
+  </div>
+
+  {% for product in section.settings.collection.products %}
+    {% liquid
+      assign option_disabled = true
+      if variants_available_arr[forloop.index0]
+        assign option_disabled = false
+      endif
+    %}
+    {% render 'bundle-card', product: product, option_disabled: option_disabled, index: forloop.index0 %}
+  {% endfor %}
+  <div class="bundle-cart-wrapper">
+    <ul class="selected-bundle-products">
+
+    </ul>
+    <button id="add-bundle-products" type="button">Add Products to Cart</button>
+  </div>
+</div>
+
+<script>
+  const productsData = {
+    {% for product in collections.all.products %}
+      "{{ product.handle }}": {
+        id: {{ product.id }},
+        title: "{{ product.title }}",
+        price: {{ product.price }},
+        image: "{{ product.featured_image | image_url: width: 200 }}"
+      },
+    {% endfor %}
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectedProducts = []; // Armazena os IDs dos produtos e suas imagens associadas
+    const selectedProductsQty = []; // Armazena os IDs dos produtos e suas quantidades associadas
+
+    function calculateQty() {
+      const products_qty_input = document.querySelectorAll('.bundle-products');
+      let quantity = 0;
+
+      products_qty_input.forEach((item) => {
+        quantity += parseInt(item.value);
+      });
+
+      return quantity;
+    }
+
+    function findLastProductIndex(productsArray, id) {
+      for (let i = productsArray.length - 1; i >= 0; i--) {
+        if (productsArray[i].id === id) {
+          return i; // Retorna o índice do último produto que corresponde ao ID
+        }
+      }
+      return -1; // Retorna -1 se não encontrar o produto
+    }
+
+    function updatePreviewImages() {
+      const preview_images = document.querySelectorAll('.preview-product');
+
+      // Primeiro, limpar todas as imagens e classes ativas
+      preview_images.forEach(preview => {
+        preview.classList.remove('active');
+        preview.querySelector('.preview-image').src = "";
+      });
+
+      // Realocar as imagens de acordo com o estado atual de selectedProducts
+      selectedProducts.forEach((product, index) => {
+        if(index < 4) {
+          preview_images[index].classList.add('active');
+          preview_images[index].querySelector('.preview-image').src = product.image;
+        }
+      });
+    }
+
+    // Função para atualizar a lista de produtos selecionados
+    function updateSelectedProductsList() {
+      const selectedProductsList = document.querySelector('.selected-bundle-products');
+      selectedProductsList.innerHTML = ''; // Limpa a lista
+
+      selectedProductsQty.forEach(product => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${product.quantity}x ${product.title}`;
+        selectedProductsList.appendChild(listItem);
+      });
+    }
+
+    const quantity_plus = document.querySelectorAll('.quantity__plus');
+    quantity_plus.forEach((plus) => {
+      plus.addEventListener('click', () => {
+        const productHandle = plus.dataset.handle;
+        const product = productsData[productHandle];
+        
+        // Adiciona o produto ao array selectedProducts
+        selectedProducts.push({
+          id: product.id,
+          image: product.image
+        });
+
+        // Atualiza a pré-visualização
+        updatePreviewImages();
+
+        // Verificar se o produto já está no array
+        const existingProduct = selectedProductsQty.find(element => element.id === product.id);
+
+        if (existingProduct) {
+          // Adiciona 1 na quantidade do produto encontrado
+          existingProduct.quantity += 1;
+        } else {
+          // Adiciona o produto ao array selectedProductsQty
+          selectedProductsQty.push({
+            id: product.id,
+            quantity: 1, // Iniciando a quantidade com 1
+            title: product.title
+          });
+        }
+
+        // Atualiza o carrinho
+        updateSelectedProductsList();
+      });
+    });
+
+    const quantity_minus = document.querySelectorAll('.quantity__minus');
+    quantity_minus.forEach((minus) => {
+      minus.addEventListener('click', () => {
+        const productHandle = minus.dataset.handle;
+        const product = productsData[productHandle];
+
+        // Verificar se o produto está no array e removê-lo
+        const productIndex = findLastProductIndex(selectedProducts, product.id);
+        if (productIndex !== -1) {
+          // Remove o produto do array selectedProducts
+          selectedProducts.splice(productIndex, 1);
+        }
+
+        // Atualiza a pré-visualização após a remoção
+        updatePreviewImages();
+
+        // Verificar se o produto já está no array
+        const existingProduct = selectedProductsQty.find(element => element.id === product.id);
+        
+        if(!existingProduct) {
+          return;
+        }
+
+        if (existingProduct.quantity > 1) {
+          // Diminui 1 na quantidade do produto encontrado
+          existingProduct.quantity -= 1;
+        } else {
+          // Remove o produto do array selectedProductsQty
+          const indexToRemove = selectedProductsQty.findIndex(element => element.id === product.id);  
+          selectedProductsQty.splice(indexToRemove, 1);
+        }
+
+        // Atualiza o carrinho
+        updateSelectedProductsList();
+      });
+    });
+
+    document.getElementById('add-bundle-products').addEventListener('click', function() {
+      // Prepare data to be sent
+      const data = {
+        items: selectedProductsQty
+      };
+
+      // Perform the AJAX request
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(cart => {
+        console.log('Cart updated:', cart);
+        alert('Products added to the cart!');
+      })
+      .catch(error => {
+        console.error('Error adding products to cart:', error);
+      });
+    });
+  });
+
+</script>
 
 {% schema %}
   {
     "name": "Bundle Black Friday",
     "settings": [
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Bundle products collection"
+      }
     ]
   }
 {% endschema %}

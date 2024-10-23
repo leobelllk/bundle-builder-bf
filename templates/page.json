@@ -1,14 +1,13 @@
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "bundle": {
+      "type": "bundle-black-friday",
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "collection": "bebida-esportiva-em-po"
       }
     }
   },
   "order": [
-    "main"
+    "bundle"
   ]
 }
