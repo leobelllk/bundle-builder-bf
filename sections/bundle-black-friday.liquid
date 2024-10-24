@@ -4,32 +4,42 @@
   assign variants_available_arr = section.settings.collection.products | map: 'available'
 %}
 
-<div class="page-width">
+<div class="bundle page-width">
   <div class="preview-products">
     {% for i in (1..4) %}
-      <div class="preview-product" id="preview-{{ forloop.index }}">
-        <div class="preview-image-wrapper">
-          <img class="preview-image" src="">
+      <div class="preview-product-wrapper">
+        <div class="sale-tag">R$ XX,XX</div>
+        <div class="preview-product" id="preview-{{ forloop.index }}">
+          <div class="preview-image-wrapper">
+            <img class="preview-image" src="">
+          </div>
+          {{- 'icon-locker.svg' | inline_asset_content -}}
         </div>
-        {{- 'icon-locker.svg' | inline_asset_content -}}
+        <p>
+          {{ forloop.index | times: 5 }}% OFF
+          {% if forloop.last %} + Frete Grátis{% endif %}
+        </p>
       </div>
     {% endfor %}
   </div>
-
-  {% for product in section.settings.collection.products %}
-    {% liquid
-      assign option_disabled = true
-      if variants_available_arr[forloop.index0]
-        assign option_disabled = false
-      endif
-    %}
-    {% render 'bundle-card', product: product, option_disabled: option_disabled, index: forloop.index0 %}
-  {% endfor %}
+  
+  <ul class="bundle-products-wrapper">
+    {% for product in section.settings.collection.products %}
+      {% liquid
+        assign option_disabled = true
+        if variants_available_arr[forloop.index0]
+          assign option_disabled = false
+        endif
+      %}
+      {% render 'bundle-card', product: product, option_disabled: option_disabled, index: forloop.index0 %}
+    {% endfor %}
+  </ul>
+  
   <div class="bundle-cart-wrapper">
     <ul class="selected-bundle-products">
 
     </ul>
-    <button id="add-bundle-products" type="button">Add Products to Cart</button>
+    <button class="button button--primary" id="add-bundle-products" type="button">Add Products to Cart</button>
   </div>
 </div>
 
@@ -42,45 +52,62 @@
         options: [{% unless product.has_only_default_variant %}{% for option in product.options_with_values %}{{ option.name }}{% unless forloop.last %}, {% endunless %}{% endfor %}{% endunless %}],
         title: "{{ product.title }}",
         price: {{ product.price }},
-        image: "{{ product.featured_image | image_url: width: 200 }}"
+        image: "{{ product.featured_image | image_url: width: 200 }}",
+        category: "{{ product.category }}"
       },
     {% endfor %}
   };
 
+  function findBeveragePrice(productsData) {
+    const productsArray = Object.values(productsData);
+    const beverageProduct = productsArray.find(product => product.category === "Bebidas em pó" || product.category === 'Vitaminas e suplementos' );
+    return beverageProduct.price;
+  }
+  
+  const beveragePrice = findBeveragePrice(productsData);
+  const sticksPerBox = 14;
+
   document.addEventListener('DOMContentLoaded', function() {
     const selectedProducts = []; // Armazena os IDs dos produtos e suas imagens associadas
     const selectedProductsQty = []; // Armazena os IDs dos produtos e suas quantidades associadas
+    const inputs = document.querySelectorAll('.bundle .quantity__input');
 
-    function calculateQty() {
-      const products_qty_input = document.querySelectorAll('.bundle-products');
-      let quantity = 0;
-
-      products_qty_input.forEach((item) => {
-        quantity += parseInt(item.value);
-      });
-
-      return quantity;
+    // Função para reforçar mínimo e máximo de quantidade
+    function enforceMinMax(el) {
+      if (el.value != "") {
+        if (parseInt(el.value) < parseInt(el.min)) {
+          el.value = el.min;
+        }
+        if (parseInt(el.value) > parseInt(el.max)) {
+          el.value = el.max;
+        }
+      }
     }
 
+    // Formata número para dinheiro
+    function moneyFormat(price) {
+      return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    // Retorna o índice do último produto que corresponde ao ID
     function findLastProductIndex(productsArray, id) {
       for (let i = productsArray.length - 1; i >= 0; i--) {
         if (productsArray[i].id === id) {
-          return i; // Retorna o índice do último produto que corresponde ao ID
+          return i;
         }
       }
-      return -1; // Retorna -1 se não encontrar o produto
+      return -1;
     }
 
+    // Função para atualizar as imagens dos previews de produtos selecionados
     function updatePreviewImages() {
       const preview_images = document.querySelectorAll('.preview-product');
 
-      // Primeiro, limpar todas as imagens e classes ativas
       preview_images.forEach(preview => {
         preview.classList.remove('active');
         preview.querySelector('.preview-image').src = "";
       });
 
-      // Realocar as imagens de acordo com o estado atual de selectedProducts
       selectedProducts.forEach((product, index) => {
         if(index < 4) {
           preview_images[index].classList.add('active');
@@ -92,91 +119,127 @@
     // Função para atualizar a lista de produtos selecionados
     function updateSelectedProductsList() {
       const selectedProductsList = document.querySelector('.selected-bundle-products');
-      selectedProductsList.innerHTML = ''; // Limpa a lista
+      selectedProductsList.innerHTML = '';
+      
+      const qty = selectedProducts.length;
+      let discount = 1;
 
+      switch (qty) {
+        case 1:
+          discount = 0.95; // 5% de desconto
+          break;
+        case 2:
+          discount = 0.90; // 10% de desconto
+          break;
+        case 3:
+          discount = 0.85; // 15% de desconto
+          break;
+        default:
+          if (qty >= 4) {
+            discount = 0.80; // 20% de desconto para 4 itens ou mais
+          }
+          break;
+      }
+
+      let totalPrice = 0;
+      let totalDiscountedPrice = 0;
+
+      // Adiciona a quantidade, o título e o preço sem desconto e com desconto de cada produto selecionado
       selectedProductsQty.forEach(item => {
         const product = productsData[item.handle];
 
-        const qty = calculateQty();
-        let discount = 1;
+        const regularPrice = (item.quantity*product.price/100);
+        const discountedPrice = (discount*item.quantity*product.price/100);
+        totalPrice += regularPrice;
+        totalDiscountedPrice += discountedPrice;
 
-        switch (qty) {
-          case 1:
-            discount = 0.95; // 5% de desconto
-            break;
-          case 2:
-            discount = 0.90; // 10% de desconto
-            break;
-          case 3:
-            discount = 0.85; // 15% de desconto
-            break;
-          default:
-            if (qty >= 4) {
-              discount = 0.80; // 20% de desconto para 4 itens ou mais
-            }
-            break;
-        }
-        const totalPrice = (item.quantity*product.price/100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        const discountedPrice = (discount*item.quantity*product.price/100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        
         const listItem = document.createElement('li');
-        listItem.textContent = `${item.quantity}x ${product.title} ${totalPrice} ${discountedPrice}`;
+        listItem.innerHTML = `
+          <div class="bundle-cart-item-info">
+            ${item.quantity}x
+            <span>${product.title.split('- ').length > 1 ? product.title.split('- ')[1] : product.title.split('- ')[0]}</span>
+          </div>
+          <div class="bundle-cart-item-price">
+            <s>${moneyFormat(regularPrice)}</s>
+            ${moneyFormat(discountedPrice)}
+          </div>
+        `;
         selectedProductsList.appendChild(listItem);
       });
+
+      // Adiciona div com preço por stick e preço total se quantidade de produtos selecionados > 0
+      if(qty > 0) {
+        const price_per_unit = document.createElement('div');
+        price_per_unit.innerHTML = `
+          <span>Você ganhou ${((1 - discount)*100).toFixed(0)}% OFF</span>
+          <div class="bundle-cart-price">
+            ${moneyFormat(beveragePrice*discount/(100*sticksPerBox))} por stick
+            <div class="bundle-total-price">
+              <s>${moneyFormat(totalPrice)}</s>
+              ${moneyFormat(totalDiscountedPrice)}
+            </div>
+          </div>
+        `;
+        selectedProductsList.appendChild(price_per_unit);
+      }
     }
 
+    inputs.forEach((item, i) => {
+      item.addEventListener('change', function() {
+        enforceMinMax(this);
+
+        if(this.value > 0) {
+          product_wrapper[i].classList.remove('not-chosen');
+        } else {
+          product_wrapper[i].classList.add('not-chosen');
+        }
+      })
+    })
+
+    // Adicionar produto quando clicar no +
     const quantity_plus = document.querySelectorAll('.quantity__plus');
     quantity_plus.forEach((plus) => {
       plus.addEventListener('click', () => {
         const productHandle = plus.dataset.handle;
         const product = productsData[productHandle];
         
-        // Adiciona o produto ao array selectedProducts
         selectedProducts.push({
           id: product.variants[0],
           image: product.image
         });
 
-        // Atualiza a pré-visualização
         updatePreviewImages();
 
-        // Verificar se o produto já está no array
         const existingProduct = selectedProductsQty.find(element => element.id === product.variants[0]);
 
         if (existingProduct) {
-          // Adiciona 1 na quantidade do produto encontrado
           existingProduct.quantity += 1;
         } else {
-          // Adiciona o produto ao array selectedProductsQty
           selectedProductsQty.push({
             id: product.variants[0],
-            quantity: 1, // Iniciando a quantidade com 1
+            quantity: 1,
             handle: productHandle
           });
         }
 
-        // Atualiza o carrinho
         updateSelectedProductsList();
       });
     });
 
+    // Remover produto quando clicar no -
     const quantity_minus = document.querySelectorAll('.quantity__minus');
     quantity_minus.forEach((minus) => {
       minus.addEventListener('click', () => {
         const productHandle = minus.dataset.handle;
         const product = productsData[productHandle];
 
-        // Verificar se o produto está no array e removê-lo
         const productIndex = findLastProductIndex(selectedProducts, product.variants[0]);
         if (productIndex !== -1) {
-          // Remove o produto do array selectedProducts
           selectedProducts.splice(productIndex, 1);
         }
 
-        // Atualiza a pré-visualização após a remoção
         updatePreviewImages();
 
-        // Verificar se o produto já está no array
         const existingProduct = selectedProductsQty.find(element => element.id === product.variants[0]);
         
         if(!existingProduct) {
@@ -184,26 +247,21 @@
         }
 
         if (existingProduct.quantity > 1) {
-          // Diminui 1 na quantidade do produto encontrado
           existingProduct.quantity -= 1;
         } else {
-          // Remove o produto do array selectedProductsQty
           const indexToRemove = selectedProductsQty.findIndex(element => element.id === product.variants[0]);  
           selectedProductsQty.splice(indexToRemove, 1);
         }
 
-        // Atualiza o carrinho
         updateSelectedProductsList();
       });
     });
 
     document.getElementById('add-bundle-products').addEventListener('click', function() {
-      // Prepare data to be sent
       const data = {
         items: selectedProductsQty
       };
 
-      // Perform the AJAX request
       fetch('/cart/add.js', {
         method: 'POST',
         headers: {
@@ -215,7 +273,6 @@
       .then(response => response.json())
       .then(cart => {
         console.log('Cart updated:', cart);
-        alert('Products added to the cart!');
       })
       .catch(error => {
         console.error('Error adding products to cart:', error);

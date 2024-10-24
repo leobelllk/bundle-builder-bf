@@ -1,24 +1,25 @@
-<div class="bundle-card-wrapper">
-  <div class="bundle-card">
-    <div class="bundle-image-wrapper">
-      {% assign default_alt = product.title | prepend: "Foto do produto " %}
-      {%- assign img_alt = product.featured_image.alt | default: default_alt | escape -%}
-      {%- assign img_height = product.featured_image.width | divided_by: product.featured_image.aspect_ratio -%}
-      {% if product.featured_image != blank %}
-        {{ product.featured_image | image_url: width: 200 | image_tag:
-          class: 'motion-reduce',
-          height: img_height,
-          width: product.featured_image.width,
-          alt: img_alt,
-          preload: true
-        }}
+<li class="bundle-card not-chosen">
+  <div class="bundle-image-wrapper">
+    {% assign default_alt = product.title | prepend: "Foto do produto " %}
+    {%- assign img_alt = product.featured_image.alt | default: default_alt | escape -%}
+    {%- assign img_height = product.featured_image.width | divided_by: product.featured_image.aspect_ratio -%}
+    {% if product.featured_image != blank %}
+      {{ product.featured_image | image_url: width: 200 | image_tag:
+        class: 'motion-reduce',
+        height: img_height,
+        width: product.featured_image.width,
+        alt: img_alt,
+        preload: true
+      }}
+    {% endif %}
+  </div>
+  <div class="bundle-product-info">
+    <div class="bundle-title-wrapper">
+      <h3 class="bundle-product-title">{{ product.title | remove: 'LIQUIDZ® - ' }}</h3>
+      {% if product.category == 'Bebidas em pó' or product.category == 'Vitaminas e suplementos' %}
+        <p>Caixa (14 sticks)</p>
       {% endif %}
     </div>
-    <div class="bundle-product-info">
-      <div class="">
-        <h3 class="bundle-product-title">{{ product.title | remove: 'LIQUIDZ® - ' }}</h3>
-      </div>
-      {% render 'products-qty-input', quantity: 4, variant: product, index: index, disabled: option_disabled %}
-    </div>
+    {% render 'products-qty-input', quantity: 4, variant: product, index: index, disabled: option_disabled %}
   </div>
-</div>
+</li>
