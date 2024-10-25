@@ -77,14 +77,16 @@
   const sticksPerBox = 14;
 
   document.addEventListener('DOMContentLoaded', function() {
-    const selectedProducts = []; // Armazena os IDs dos produtos e suas imagens associadas
-    const selectedProductsQty = []; // Armazena os IDs dos produtos e suas quantidades associadas
-    const product_wrapper = document.querySelectorAll('.bundle-card');
-    const includeButton = document.querySelector('.open-popup .include');
+    let selectedProducts = []; // Armazena os IDs dos produtos e suas imagens associadas
+    let selectedProductsQty = []; // Armazena os IDs dos produtos e suas quantidades associadas
+    const inputs = document.querySelectorAll('.bundle-card .quantity__input');
+    const productWrapper = document.querySelectorAll('.bundle-card:not(:has(.open-popup))');
+    const productVariantsWrapper = document.querySelectorAll('.bundle-card:has(.open-popup)');
+    const includeButtons = document.querySelectorAll('.open-popup .include');
+    const removeButtons = document.querySelectorAll('.open-popup .remove');
     const popupOverlay = document.querySelector('.popup-overlay');
     const chooseOptionsContainer = document.querySelector('.choose-options');
     const closePopupButton = document.querySelector('.close-popup');
-    const confirmVariantButton = document.querySelector('.confirm-variant');
     let selectedOptions = [];
 
     // Formata número para dinheiro
@@ -150,7 +152,6 @@
       // Adiciona a quantidade, o título e o preço sem desconto e com desconto de cada produto selecionado
       selectedProductsQty.forEach(item => {
         const product = productsData[item.handle];
-
         const regularPrice = (item.quantity*product.price/100);
         const discountedPrice = (discount*item.quantity*product.price/100);
         totalPrice += regularPrice;
@@ -160,7 +161,7 @@
         listItem.innerHTML = `
           <div class="bundle-cart-item-info">
             ${item.quantity}x
-            <span>${product.title}${item.options && ` - ${item.options}`}</span>
+            <span>${product.title}${item.options ? ` - ${item.options}` : ''}</span>
           </div>
           <div class="bundle-cart-item-price">
             <s>${moneyFormat(regularPrice)}</s>
@@ -191,12 +192,13 @@
     const quantity_plus = document.querySelectorAll('.quantity__plus');
     quantity_plus.forEach((plus, i) => {
       plus.addEventListener('click', () => {
-        product_wrapper[i].classList.remove('not-chosen');
+        productWrapper[i].classList.remove('not-chosen');
         const productHandle = plus.dataset.handle;
         const product = productsData[productHandle];
         
         selectedProducts.push({
           id: product.variants[0].id,
+          handle: productHandle,
           image: product.image
         });
 
@@ -222,9 +224,10 @@
     const quantity_minus = document.querySelectorAll('.quantity__minus');
     quantity_minus.forEach((minus, i) => {
       minus.addEventListener('click', () => {
-        if(selectedProducts.length <= 1) {
-          product_wrapper[i].classList.add('not-chosen');
+        if(inputs[i].value < 1) {
+          productWrapper[i].classList.add('not-chosen');
         }
+        
         const productHandle = minus.dataset.handle;
         const product = productsData[productHandle];
 
@@ -253,94 +256,121 @@
     });
 
     // Função para abrir o popup e exibir as variantes do produto
-    includeButton.addEventListener('click', function() {
-      const productHandle = this.dataset.handle;
-      const product = productsData[productHandle];
+    includeButtons.forEach((include, index) => {
+      include.addEventListener('click', function() {
+        const productHandle = this.dataset.handle;
+        const product = productsData[productHandle];
 
-      if (product) {
-        popupOverlay.style.display = 'flex';
-        chooseOptionsContainer.innerHTML = '';
+        if (product) {
+          popupOverlay.style.display = 'flex';
+          chooseOptionsContainer.innerHTML = '';
 
-        // Adiciona a imagem do produto no topo da popup
-        const productImage = document.createElement('img');
-        productImage.classList.add('popup-product-image');
-        productImage.src = product.image;
-        productImage.alt = product.title;
-        chooseOptionsContainer.appendChild(productImage);
+          // Adiciona a imagem do produto no topo da popup
+          const productImage = document.createElement('img');
+          productImage.classList.add('popup-product-image');
+          productImage.src = product.image;
+          productImage.alt = product.title;
+          chooseOptionsContainer.appendChild(productImage);
 
-        // Criar campos de opções dinâmicos
-        product.options.forEach((option, index) => {
-          const optionFieldset = document.createElement('fieldset');
-          const optionLabel = document.createElement('legend');
-          optionLabel.innerText = option.name;
-          optionFieldset.appendChild(optionLabel);
-          chooseOptionsContainer.appendChild(optionFieldset);
-
-          option.values.forEach((value, idx) => {
-            const optionInput = document.createElement('input');
-            optionInput.type = 'radio';
-            optionInput.name = option.name;
-            optionInput.value = value;
-            optionInput.id = `${option.name}-${value}`;
-
-            // Define o primeiro option como checked
-            if (idx === 0) {
-              optionInput.checked = true;
-              selectedOptions[index] = value;
-            }
-
-            optionInput.addEventListener('change', () => {
-              selectedOptions[index] = value;
-            });
-
-            const optionLabel = document.createElement('label');
-            optionLabel.htmlFor = `${option.name}-${value}`;
-            optionLabel.innerText = value;
-
-            optionFieldset.appendChild(optionInput);
+          // Criar campos de opções dinâmicos
+          product.options.forEach((option, index) => {
+            const optionFieldset = document.createElement('fieldset');
+            const optionLabel = document.createElement('legend');
+            optionLabel.innerText = option.name;
             optionFieldset.appendChild(optionLabel);
-          });
-        });
+            chooseOptionsContainer.appendChild(optionFieldset);
 
-        const addVariantButton = document.createElement('button');
-        addVariantButton.dataset.handle = productHandle;
-        addVariantButton.innerText = 'Adicionar';
+            option.values.forEach((value, idx) => {
+              const optionInput = document.createElement('input');
+              optionInput.type = 'radio';
+              optionInput.name = option.name;
+              optionInput.value = value;
+              optionInput.id = `${option.name}-${value}`;
 
-        addVariantButton.addEventListener('click', function() {
-          // Localizar a variante correspondente
-          const matchingVariant = product.variants.find(variant => {
-            return variant.options.split(', ').every((optionValue, index) => {
-              return selectedOptions[index] === optionValue;
-            });
-            
-          });
+              // Define o primeiro option como checked
+              if (idx === 0) {
+                optionInput.checked = true;
+                selectedOptions[index] = value;
+              }
 
-          if (matchingVariant) {
-            // Adicionar variante ao selectedProducts e selectedProductsQty
-            const existingProduct = selectedProductsQty.find(item => item.id === matchingVariant.id);
-
-            if (!existingProduct) {
-              selectedProducts.push({ id: matchingVariant.id, image: product.image });
-              selectedProductsQty.push({
-                id: matchingVariant.id,
-                quantity: 1,
-                handle: productHandle,
-                options: matchingVariant.options
+              optionInput.addEventListener('change', () => {
+                selectedOptions[index] = value;
               });
+
+              const optionLabel = document.createElement('label');
+              optionLabel.htmlFor = `${option.name}-${value}`;
+              optionLabel.innerText = value;
+
+              optionFieldset.appendChild(optionInput);
+              optionFieldset.appendChild(optionLabel);
+            });
+          });
+
+          const addVariantButton = document.createElement('button');
+          addVariantButton.innerText = 'Adicionar';
+
+          addVariantButton.addEventListener('click', function() {
+            // Localizar a variante correspondente
+            const matchingVariant = product.variants.find(variant => {
+              return variant.options.split(', ').every((optionValue, index) => {
+                return selectedOptions[index] === optionValue;
+              });
+              
+            });
+
+            if (matchingVariant) {
+              // Adicionar variante ao selectedProducts e selectedProductsQty
+              const existingProduct = selectedProductsQty.find(item => item.id === matchingVariant.id);
+
+              if (!existingProduct) {
+                selectedProducts.push({ id: matchingVariant.id, handle: productHandle, image: product.image });
+                selectedProductsQty.push({
+                  id: matchingVariant.id,
+                  quantity: 1,
+                  handle: productHandle,
+                  options: matchingVariant.options
+                });
+                productVariantsWrapper[index].classList.remove('not-chosen');
+              }
+
+              updatePreviewImages();
+              updateSelectedProductsList();
+            } else {
+              alert('Nenhuma variante correspondente encontrada');
             }
 
-            updatePreviewImages();
-            updateSelectedProductsList();
-          } else {
-            alert('Nenhuma variante correspondente encontrada');
-          }
+            // Fechar o popup
+            popupOverlay.style.display = 'none';
+          });
 
-          // Fechar o popup
-          popupOverlay.style.display = 'none';
-        });
+          chooseOptionsContainer.appendChild(addVariantButton);
+        }
+      });
+    });
 
-        chooseOptionsContainer.appendChild(addVariantButton);
-      }
+    // Remover o produto com variantes
+    removeButtons.forEach((remove, index) => {
+      remove.addEventListener('click', function() {
+        const productHandle = this.dataset.handle;
+        // Verifica se o produto existe nas arrays antes de remover
+        const productIndex = selectedProducts.findIndex(product => product.handle === productHandle);
+        const qtyIndex = selectedProductsQty.findIndex(product => product.handle === productHandle);
+
+        // Se o produto for encontrado, remove das arrays
+        if (productIndex !== -1) {
+          selectedProducts.splice(productIndex, 1);
+        }
+
+        if (qtyIndex !== -1) {
+          selectedProductsQty.splice(qtyIndex, 1);
+        }
+
+        productVariantsWrapper[index].classList.add('not-chosen');
+
+        // Atualizar visualizações e lista de produtos
+        updatePreviewImages();
+        updateSelectedProductsList();
+      });
     });
 
     // Fechar o popup ao clicar no botão Fechar

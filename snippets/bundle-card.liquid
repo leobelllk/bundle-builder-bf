@@ -24,8 +24,8 @@
       {% render 'products-qty-input', quantity: 4, variant: product, index: index, disabled: option_disabled %}
     {% else %}
       <div class="open-popup">
-        <span class="include" data-handle="{{ product.handle }}">Incluir</span>
-        <span class="remove" data-handle="{{ product.handle }}">Remover</span>
+        <span class="include" data-index="{{ index }}" data-handle="{{ product.handle }}">Incluir</span>
+        <span class="remove" data-index="{{ index }}" data-handle="{{ product.handle }}">Remover</span>
       </div>
     {% endif %}
   </div>
