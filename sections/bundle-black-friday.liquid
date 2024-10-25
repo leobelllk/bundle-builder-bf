@@ -43,13 +43,22 @@
   </div>
 </div>
 
+<div class="popup-overlay" style="display: none;">
+  <div class="popup-content">
+    <div class="choose-options">
+      <!-- Variantes serão adicionadas dinamicamente aqui -->
+    </div>
+    <button class="close-popup">Fechar</button>
+  </div>
+</div>
+
 <script>
   const productsData = {
     {% for product in section.settings.collection.products %}
       "{{ product.handle }}": {
         id: {{ product.id }},
-        variants: [{% for variant in product.variants %}{{ variant.id }}{% unless forloop.last %}, {% endunless %}{% endfor %}],
-        options: [{% unless product.has_only_default_variant %}{% for option in product.options_with_values %}{{ option.name }}{% unless forloop.last %}, {% endunless %}{% endfor %}{% endunless %}],
+        variants: [{% for variant in product.variants %}{ id: {{ variant.id }}{% unless product.has_only_default_variant %}, options: "{{ variant.options }}"{% endunless %} }{% unless forloop.last %}, {% endunless %}{% endfor %}],
+        options: [{% unless product.has_only_default_variant %}{% for option in product.options_with_values %}{ name: "{{ option.name }}", values: [{% for value in option.values %}"{{ value }}"{% unless forloop.last %}, {% endunless %}{% endfor %}] }{% unless forloop.last %}, {% endunless %}{% endfor %}{% endunless %}],
         title: "{{ product.title }}",
         price: {{ product.price }},
         image: "{{ product.featured_image | image_url: width: 200 }}",
@@ -70,19 +79,13 @@
   document.addEventListener('DOMContentLoaded', function() {
     const selectedProducts = []; // Armazena os IDs dos produtos e suas imagens associadas
     const selectedProductsQty = []; // Armazena os IDs dos produtos e suas quantidades associadas
-    const inputs = document.querySelectorAll('.bundle .quantity__input');
-
-    // Função para reforçar mínimo e máximo de quantidade
-    function enforceMinMax(el) {
-      if (el.value != "") {
-        if (parseInt(el.value) < parseInt(el.min)) {
-          el.value = el.min;
-        }
-        if (parseInt(el.value) > parseInt(el.max)) {
-          el.value = el.max;
-        }
-      }
-    }
+    const product_wrapper = document.querySelectorAll('.bundle-card');
+    const includeButton = document.querySelector('.open-popup .include');
+    const popupOverlay = document.querySelector('.popup-overlay');
+    const chooseOptionsContainer = document.querySelector('.choose-options');
+    const closePopupButton = document.querySelector('.close-popup');
+    const confirmVariantButton = document.querySelector('.confirm-variant');
+    let selectedOptions = [];
 
     // Formata número para dinheiro
     function moneyFormat(price) {
@@ -152,12 +155,12 @@
         const discountedPrice = (discount*item.quantity*product.price/100);
         totalPrice += regularPrice;
         totalDiscountedPrice += discountedPrice;
-
+        
         const listItem = document.createElement('li');
         listItem.innerHTML = `
           <div class="bundle-cart-item-info">
             ${item.quantity}x
-            <span>${product.title.split('- ').length > 1 ? product.title.split('- ')[1] : product.title.split('- ')[0]}</span>
+            <span>${product.title}${item.options && ` - ${item.options}`}</span>
           </div>
           <div class="bundle-cart-item-price">
             <s>${moneyFormat(regularPrice)}</s>
@@ -184,39 +187,28 @@
       }
     }
 
-    inputs.forEach((item, i) => {
-      item.addEventListener('change', function() {
-        enforceMinMax(this);
-
-        if(this.value > 0) {
-          product_wrapper[i].classList.remove('not-chosen');
-        } else {
-          product_wrapper[i].classList.add('not-chosen');
-        }
-      })
-    })
-
     // Adicionar produto quando clicar no +
     const quantity_plus = document.querySelectorAll('.quantity__plus');
-    quantity_plus.forEach((plus) => {
+    quantity_plus.forEach((plus, i) => {
       plus.addEventListener('click', () => {
+        product_wrapper[i].classList.remove('not-chosen');
         const productHandle = plus.dataset.handle;
         const product = productsData[productHandle];
         
         selectedProducts.push({
-          id: product.variants[0],
+          id: product.variants[0].id,
           image: product.image
         });
 
         updatePreviewImages();
 
-        const existingProduct = selectedProductsQty.find(element => element.id === product.variants[0]);
+        const existingProduct = selectedProductsQty.find(element => element.id === product.variants[0].id);
 
         if (existingProduct) {
           existingProduct.quantity += 1;
         } else {
           selectedProductsQty.push({
-            id: product.variants[0],
+            id: product.variants[0].id,
             quantity: 1,
             handle: productHandle
           });
@@ -228,19 +220,22 @@
 
     // Remover produto quando clicar no -
     const quantity_minus = document.querySelectorAll('.quantity__minus');
-    quantity_minus.forEach((minus) => {
+    quantity_minus.forEach((minus, i) => {
       minus.addEventListener('click', () => {
+        if(selectedProducts.length <= 1) {
+          product_wrapper[i].classList.add('not-chosen');
+        }
         const productHandle = minus.dataset.handle;
         const product = productsData[productHandle];
 
-        const productIndex = findLastProductIndex(selectedProducts, product.variants[0]);
+        const productIndex = findLastProductIndex(selectedProducts, product.variants[0].id);
         if (productIndex !== -1) {
           selectedProducts.splice(productIndex, 1);
         }
 
         updatePreviewImages();
 
-        const existingProduct = selectedProductsQty.find(element => element.id === product.variants[0]);
+        const existingProduct = selectedProductsQty.find(element => element.id === product.variants[0].id);
         
         if(!existingProduct) {
           return;
@@ -249,7 +244,7 @@
         if (existingProduct.quantity > 1) {
           existingProduct.quantity -= 1;
         } else {
-          const indexToRemove = selectedProductsQty.findIndex(element => element.id === product.variants[0]);  
+          const indexToRemove = selectedProductsQty.findIndex(element => element.id === product.variants[0].id);  
           selectedProductsQty.splice(indexToRemove, 1);
         }
 
@@ -257,6 +252,103 @@
       });
     });
 
+    // Função para abrir o popup e exibir as variantes do produto
+    includeButton.addEventListener('click', function() {
+      const productHandle = this.dataset.handle;
+      const product = productsData[productHandle];
+
+      if (product) {
+        popupOverlay.style.display = 'flex';
+        chooseOptionsContainer.innerHTML = '';
+
+        // Adiciona a imagem do produto no topo da popup
+        const productImage = document.createElement('img');
+        productImage.classList.add('popup-product-image');
+        productImage.src = product.image;
+        productImage.alt = product.title;
+        chooseOptionsContainer.appendChild(productImage);
+
+        // Criar campos de opções dinâmicos
+        product.options.forEach((option, index) => {
+          const optionFieldset = document.createElement('fieldset');
+          const optionLabel = document.createElement('legend');
+          optionLabel.innerText = option.name;
+          optionFieldset.appendChild(optionLabel);
+          chooseOptionsContainer.appendChild(optionFieldset);
+
+          option.values.forEach((value, idx) => {
+            const optionInput = document.createElement('input');
+            optionInput.type = 'radio';
+            optionInput.name = option.name;
+            optionInput.value = value;
+            optionInput.id = `${option.name}-${value}`;
+
+            // Define o primeiro option como checked
+            if (idx === 0) {
+              optionInput.checked = true;
+              selectedOptions[index] = value;
+            }
+
+            optionInput.addEventListener('change', () => {
+              selectedOptions[index] = value;
+            });
+
+            const optionLabel = document.createElement('label');
+            optionLabel.htmlFor = `${option.name}-${value}`;
+            optionLabel.innerText = value;
+
+            optionFieldset.appendChild(optionInput);
+            optionFieldset.appendChild(optionLabel);
+          });
+        });
+
+        const addVariantButton = document.createElement('button');
+        addVariantButton.dataset.handle = productHandle;
+        addVariantButton.innerText = 'Adicionar';
+
+        addVariantButton.addEventListener('click', function() {
+          // Localizar a variante correspondente
+          const matchingVariant = product.variants.find(variant => {
+            return variant.options.split(', ').every((optionValue, index) => {
+              return selectedOptions[index] === optionValue;
+            });
+            
+          });
+
+          if (matchingVariant) {
+            // Adicionar variante ao selectedProducts e selectedProductsQty
+            const existingProduct = selectedProductsQty.find(item => item.id === matchingVariant.id);
+
+            if (!existingProduct) {
+              selectedProducts.push({ id: matchingVariant.id, image: product.image });
+              selectedProductsQty.push({
+                id: matchingVariant.id,
+                quantity: 1,
+                handle: productHandle,
+                options: matchingVariant.options
+              });
+            }
+
+            updatePreviewImages();
+            updateSelectedProductsList();
+          } else {
+            alert('Nenhuma variante correspondente encontrada');
+          }
+
+          // Fechar o popup
+          popupOverlay.style.display = 'none';
+        });
+
+        chooseOptionsContainer.appendChild(addVariantButton);
+      }
+    });
+
+    // Fechar o popup ao clicar no botão Fechar
+    closePopupButton.addEventListener('click', function() {
+      popupOverlay.style.display = 'none';
+    });
+
+    // Adicionar produtos ao carrinho
     document.getElementById('add-bundle-products').addEventListener('click', function() {
       const data = {
         items: selectedProductsQty

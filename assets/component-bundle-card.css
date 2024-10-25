@@ -55,7 +55,7 @@
   line-height: 12.5px;
 }
 
-.bundle-card .quantity {
+.bundle-card .quantity, .open-popup {
   width: 100px;
   min-width: 80px;
   min-height: 36px;
@@ -66,7 +66,8 @@
 
 .bundle-card .quantity__button {
   background-color: unset !important;
-  width: 26px !important;
+  width: 26px;
+  color: var(--black);
 }
 
 .bundle-card .quantity__button.disabled {
@@ -76,4 +77,35 @@
 .bundle-card .quantity__input {
   font-size: 13px;
   font-weight: 700;
+}
+
+.not-chosen .quantity, .not-chosen .open-popup {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.not-chosen .quantity__button {
+  color: var(--white);
+  width: 100%;
+}
+
+.include, .open-popup .remove {
+  display: flex;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.include, .not-chosen .open-popup .remove, .not-chosen .quantity__minus, .not-chosen .quantity__input, .not-chosen .quantity__plus .svg-wrapper {
+  display: none;
+}
+
+.not-chosen .include {
+  display: flex;
+}
+
+.open-popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--inputs-radius);
 }

@@ -15,11 +15,18 @@
   </div>
   <div class="bundle-product-info">
     <div class="bundle-title-wrapper">
-      <h3 class="bundle-product-title">{{ product.title | remove: 'LIQUIDZ® - ' }}</h3>
+      <h3 class="bundle-product-title">{{ product.title | remove: 'LIQUIDZ®' | remove: ' - ' }}</h3>
       {% if product.category == 'Bebidas em pó' or product.category == 'Vitaminas e suplementos' %}
         <p>Caixa (14 sticks)</p>
       {% endif %}
     </div>
-    {% render 'products-qty-input', quantity: 4, variant: product, index: index, disabled: option_disabled %}
+    {% if product.has_only_default_variant %}
+      {% render 'products-qty-input', quantity: 4, variant: product, index: index, disabled: option_disabled %}
+    {% else %}
+      <div class="open-popup">
+        <span class="include" data-handle="{{ product.handle }}">Incluir</span>
+        <span class="remove" data-handle="{{ product.handle }}">Remover</span>
+      </div>
+    {% endif %}
   </div>
 </li>
