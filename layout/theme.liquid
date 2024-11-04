@@ -306,8 +306,10 @@
     {%- if settings.cart_type == 'drawer' -%}
       {%- render 'cart-drawer' -%}
     {%- endif -%}
-
-    {% sections 'header-group' %}
+    
+    {% if page.url != "/page"  %}
+      {% sections 'header-group' %}
+    {% endif %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
