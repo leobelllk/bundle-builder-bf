@@ -307,9 +307,9 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
     
-    {% if page.url != "/page"  %}
+    {% unless page.url != "/page"  %}
       {% sections 'header-group' %}
-    {% endif %}
+    {% endunless %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
