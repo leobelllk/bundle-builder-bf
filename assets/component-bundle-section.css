@@ -139,6 +139,7 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    margin: 0;
   }
 
   .low-stock {
@@ -161,7 +162,7 @@ text-transform: uppercase;
   }
 
   .discounttext {
-    padding: 20px 0px;
+    margin: 0;
     color: #0f0f0f;
     font-size: 16px;
     font-style: normal;
