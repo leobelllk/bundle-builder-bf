@@ -335,3 +335,7 @@ line-height: 24px;
   
 }
 
+.selected-bundle-products {
+  display: flex;
+    justify-content: space-between;
+}
