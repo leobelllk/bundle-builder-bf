@@ -325,7 +325,8 @@ text-transform: uppercase;
 }
 
 .bundle-cart-item-info,
-.bundle-cart-item-price {
+.bundle-cart-item-price,
+.bundle-cart-item-qty{
   color: #F7F6F2;
 font-family: Inter;
 font-size: 11.2px;

@@ -221,8 +221,10 @@
         
         const listItem = document.createElement('li');
         listItem.innerHTML = `
-          <div class="bundle-cart-item-info">
+          <div class="bundle-cart-item-qty">
             ${item.quantity}x
+          </div>
+          <div class="bundle-cart-item-info">
             <span>${product.title}${item.options ? ` - ${item.options}` : ''}</span>
           </div>
           <div class="bundle-cart-item-price">
