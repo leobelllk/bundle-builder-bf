@@ -23,6 +23,9 @@
               <div class="preview-image-wrapper">
                 <img class="preview-image" src="{{ discount_images[forloop.index0] }}">
               </div>
+              <div class="locker-icon">
+                {{- 'icon-locker.svg' | inline_asset_content -}}
+              </div>
               {% if forloop.last %}
                 <p class="frete">
                   + Frete Grátis
