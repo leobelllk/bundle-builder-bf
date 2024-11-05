@@ -126,3 +126,7 @@
   width: 300px;
   text-align: center;
 }
+
+.halfside {
+  width: 50%;
+}
