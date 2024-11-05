@@ -4,7 +4,8 @@
   assign variants_available_arr = section.settings.collection.products | map: 'available'
 %}
 
-<div class="bundle page-width halfside">
+<div class="fullsize-dp page-width">
+  <div class="bundle halfside">
   <div class="preview-products">
     {% for i in (1..4) %}
       <div class="preview-product-wrapper">
@@ -42,7 +43,9 @@
     <button class="button button--primary" id="add-bundle-products" type="button">Add Products to Cart</button>
   </div>
 </div>
-
+  <div class="resume halfside"></div>
+</div>
+  
 <div class="popup-overlay" style="display: none;">
   <div class="popup-content">
     <div class="choose-options">
