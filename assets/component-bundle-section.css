@@ -301,4 +301,12 @@ text-decoration-line: underline;
 padding: 0 1.5rem;
 }
 
+.button-adjust {
+      display: flex;
+    justify-content: center;
+}
+
+.resume-content {
+  padding: 30px;
+}
 
