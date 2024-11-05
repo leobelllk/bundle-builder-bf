@@ -162,7 +162,10 @@
 
   .preview-products {
     padding: 0;
-    margin: 0;
+  }
+
+  .bundle-products-wrapper{
+    padding: 0;
   }
 }
 
