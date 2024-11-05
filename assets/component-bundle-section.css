@@ -339,7 +339,7 @@ line-height: 24px;
   gap: 10px;
 }
 
-.selected-bundle-products {
+.selected-bundle-products li{
   display: flex;
     justify-content: space-between;
 }
