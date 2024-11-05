@@ -276,10 +276,7 @@ text-decoration-line: underline;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            border: 2px solid black;
-            background: white;
             z-index: 1000;
-            padding: 20px;
         }
         .popup img {
             width: 400px
