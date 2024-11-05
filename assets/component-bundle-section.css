@@ -342,7 +342,7 @@ line-height: 24px;
 
 .selected-bundle-products li{
   display: grid;
-  grid-template-columns: 1fr 4fr 2fr;
+  grid-template-columns: 1fr 5fr 3fr;
 }
 
 .selected-bundle-products li > :last-child {
