@@ -134,6 +134,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 }
 
 .popup-content {
@@ -142,6 +143,16 @@
   border-radius: 8px;
   width: 300px;
   text-align: center;
+}
+
+/* Form Elements */
+.product-form__input:not(:has(.products-quantity-container)) {
+  flex: 0 0 100%;
+  padding: 0;
+  margin: 0 0 1.2rem 0;
+  max-width: 44rem;
+  min-width: fit-content;
+  border: none;
 }
 
 @media screen and (min-width: 768px) {

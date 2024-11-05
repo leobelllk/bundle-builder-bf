@@ -1,5 +1,7 @@
 {{ 'component-bundle-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-bundle-section.css' | asset_url | stylesheet_tag }}
+{{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+
 {% liquid
   assign variants_available_arr = section.settings.collection.products | map: 'available'
 %}
@@ -77,12 +79,12 @@
     {% for product in section.settings.collection.products %}
       "{{ product.handle }}": {
         id: {{ product.id }},
-        variants: [{% for variant in product.variants %}{ id: {{ variant.id }}{% unless product.has_only_default_variant %}, options: "{{ variant.options }}"{% endunless %} }{% unless forloop.last %}, {% endunless %}{% endfor %}],
+        variants: [{% for variant in product.variants %}{ id: {{ variant.id }}{% unless product.has_only_default_variant %}, options: [{% for option in variant.options %}"{{ option }}"{%- unless forloop.last -%}, {%- endunless -%}{% endfor %}]{% endunless %} }{% unless forloop.last %}, {% endunless %}{% endfor %}],
         options: [{% unless product.has_only_default_variant %}{% for option in product.options_with_values %}{ name: "{{ option.name }}", values: [{% for value in option.values %}"{{ value }}"{% unless forloop.last %}, {% endunless %}{% endfor %}] }{% unless forloop.last %}, {% endunless %}{% endfor %}{% endunless %}],
         title: "{{ product.title }}",
         price: {{ product.price }},
         category: "{{ product.category }}",
-        image: "{{ product.featured_image }}"
+        image: "{{ product.featured_image | image_url: width: 200 }}"
       },
     {% endfor %}
   };
@@ -305,28 +307,37 @@
         if (product) {
           popupOverlay.style.display = 'flex';
           chooseOptionsContainer.innerHTML = '';
+          const variantSelects = document.createElement('variant-selects');
+          variantSelects.id = `variant-selects-${product.id}`;
+          variantSelects.dataset.section = product.id;
 
           // Adiciona a imagem do produto no topo da popup
           const productImage = document.createElement('img');
           productImage.classList.add('popup-product-image');
           productImage.src = product.image;
           productImage.alt = product.title;
+
           chooseOptionsContainer.appendChild(productImage);
+          chooseOptionsContainer.appendChild(variantSelects);
 
           // Criar campos de opções dinâmicos
           product.options.forEach((option, index) => {
             const optionFieldset = document.createElement('fieldset');
+            optionFieldset.classList.add('js', 'product-form__input', 'product-form__input--pill');
+
             const optionLabel = document.createElement('legend');
+            optionLabel.classList.add('form__label');
             optionLabel.innerText = option.name;
+
             optionFieldset.appendChild(optionLabel);
-            chooseOptionsContainer.appendChild(optionFieldset);
+            variantSelects.appendChild(optionFieldset);
 
             option.values.forEach((value, idx) => {
               const optionInput = document.createElement('input');
               optionInput.type = 'radio';
-              optionInput.name = option.name;
+              optionInput.name = `${option.name}-${index}`;
               optionInput.value = value;
-              optionInput.id = `${option.name}-${value}`;
+              optionInput.id = `${product.id}-${index}-${idx}`;
 
               // Define o primeiro option como checked
               if (idx === 0) {
@@ -336,10 +347,38 @@
 
               optionInput.addEventListener('change', () => {
                 selectedOptions[index] = value;
+                
+                const filteredVariants = product.variants.filter(variant => variant.options.indexOf(value) != -1);
+                const fieldsets = chooseOptionsContainer.querySelectorAll('fieldset');
+                fieldsets.forEach((fieldset, i) => {
+                  if (i > index) {
+                    const availablesOptions = filteredVariants.map(variant => variant.options[i]);
+                    const inputs = fieldset.querySelectorAll('input');
+                    inputs.forEach(input => {
+                      if(availablesOptions.indexOf(input.value) == -1) {
+                        input.disabled = true;
+                      } else {
+                        input.disabled = false;
+                      }
+                    });
+                  }
+                });
+
+                const matchingVariant = product.variants.find(variant => {
+                  return variant.options.every((optionValue, index) => {
+                    return selectedOptions[index] === optionValue;
+                  });
+                });    
+
+                if(!matchingVariant) {
+                  addVariantButton.disabled = true;
+                } else {
+                  addVariantButton.disabled = false;
+                }
               });
 
               const optionLabel = document.createElement('label');
-              optionLabel.htmlFor = `${option.name}-${value}`;
+              optionLabel.htmlFor = `${product.id}-${index}-${idx}`;
               optionLabel.innerText = value;
 
               optionFieldset.appendChild(optionInput);
@@ -353,10 +392,9 @@
           addVariantButton.addEventListener('click', function() {
             // Localizar a variante correspondente
             const matchingVariant = product.variants.find(variant => {
-              return variant.options.split(', ').every((optionValue, index) => {
+              return variant.options.every((optionValue, index) => {
                 return selectedOptions[index] === optionValue;
               });
-              
             });
 
             if (matchingVariant) {
