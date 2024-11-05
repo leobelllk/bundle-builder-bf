@@ -211,3 +211,8 @@
     display: none;
   }
 }
+
+.bundle-cart-wrapper {
+  display: flex;
+  flex-direction: column;
+}
