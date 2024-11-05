@@ -54,8 +54,15 @@
       </ul>
 
       <div class="ingredients">
-        <p class="ingredients-table" id="ingredients">Confira a tabela e os ingredientes</p>
+        <p class="ingredients-table" id="ingredients" onclick="openPopup()">Confira a tabela e os ingredientes</p>
       </div>
+
+      <div class="popup-background" id="popup-background"></div>
+    
+    <div class="popup" id="popup">
+        <span class="popup-close" onclick="closePopup()">X</span>
+        <img src="https://cdn.shopify.com/s/files/1/0837/5153/4895/files/image_1.png?v=1730842841" alt="Image">
+    </div>
 
       <div class="bundle-cart-wrapper">
         <div class="resume-title">
@@ -487,6 +494,16 @@
       });
     });
   });
+
+   function openPopup() {
+            document.getElementById('popup-background').style.display = 'block';
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup-background').style.display = 'none';
+            document.getElementById('popup').style.display = 'none';
+        }
 
 </script>
 
