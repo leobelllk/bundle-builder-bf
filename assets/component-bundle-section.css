@@ -344,7 +344,7 @@ line-height: 24px;
   display: grid;
   grid-template-columns: 1fr 5fr 3fr;
   border-bottom: 1px solid white;
-    padding-bottom: 20px;
+    padding: 20px 0;
 }
 
 .selected-bundle-products li > :last-child {
