@@ -161,6 +161,7 @@ text-transform: uppercase;
   }
 
   .discounttext {
+    padding: 20px 0px;
     color: #0f0f0f;
     font-size: 16px;
     font-style: normal;
