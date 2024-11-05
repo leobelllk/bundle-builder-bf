@@ -228,6 +228,10 @@
   .bundle_titles {
     display: none;
   }
+
+          .popup img {
+            width: 400px
+        }
 }
 
 .bundle-cart-wrapper {
@@ -279,9 +283,7 @@ text-decoration-line: underline;
             transform: translate(-50%, -50%);
             z-index: 1000;
         }
-        .popup img {
-            width: 400px
-        }
+
         .popup-close {
           position: absolute;
           right: 6px;
