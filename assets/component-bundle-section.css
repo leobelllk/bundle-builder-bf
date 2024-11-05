@@ -258,6 +258,7 @@ font-style: normal;
 font-weight: 400;
 line-height: 20.8px; /* 185.714% */
 text-decoration-line: underline;
+  cursor: pointer;
 }
 
         .popup-background {
