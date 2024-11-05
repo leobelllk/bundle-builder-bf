@@ -295,6 +295,10 @@ text-decoration-line: underline;
             color: black;
             font-weight: bold;
         }
-    
+
+
+.selected-bundle-products {
+padding: 0 1.5rem;
+}
 
 
