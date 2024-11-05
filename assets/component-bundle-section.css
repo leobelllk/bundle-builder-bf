@@ -332,7 +332,11 @@ font-size: 11.2px;
 font-style: normal;
 font-weight: 700;
 line-height: 24px;
-  
+}
+
+.bundle-cart-item-info {
+  display: flex;
+  gap: 20px;
 }
 
 .selected-bundle-products {
