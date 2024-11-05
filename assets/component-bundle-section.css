@@ -160,6 +160,15 @@ font-weight: 700;
 text-transform: uppercase;
   }
 
+  .discounttext {
+    color: #0f0f0f;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%;
+  }
+
 }
 
 @media screen and (max-width: 767px) {
