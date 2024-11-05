@@ -133,14 +133,7 @@
   width: 50%;
 }
 
-}
-
-@media screen and (max-width: 767px) {
-  .bundle_titles {
-    display: none;
-  }
-
-  .bundle_titles h2 {
+   .bundle_titles h2 {
     color: #0F0F0F;
     font-size: 32px;
     font-style: normal;
@@ -154,5 +147,12 @@
     align-items: center;
     border-radius: 4px;
     background: rgba(251, 58, 61, 0.10);
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  .bundle_titles {
+    display: none;
   }
 }
