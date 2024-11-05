@@ -4,6 +4,8 @@
   assign variants_available_arr = section.settings.collection.products | map: 'available'
 %}
 
+{% assign discount_images = 'https://cdn.shopify.com/s/files/1/0837/5153/4895/files/discount-5.png?v=1730776254,https://cdn.shopify.com/s/files/1/0837/5153/4895/files/discount-10.png?v=1730776254,https://cdn.shopify.com/s/files/1/0837/5153/4895/files/discount-15.png?v=1730776253,https://cdn.shopify.com/s/files/1/0837/5153/4895/files/discount-20.png?v=1730776253' | split: ',' %}
+
 <div class="fullsize-dp page-width">
   <div class="first-column halfside">
     <div class="bundle_titles">
@@ -15,44 +17,46 @@
   <div class="preview-products">
     {% for i in (1..4) %}
       <div class="preview-product-wrapper">
-        <div class="sale-tag">R$ XX,XX</div>
+        <div class="sale-tag">{{ forloop.index | times: 5 }}% OFF</div>
         <div class="preview-product" id="preview-{{ forloop.index }}">
           <div class="preview-image-wrapper">
-            <img class="preview-image" src="">
+            <img class="preview-image" src="{{ discount_images[forloop.index0] }}">
           </div>
-          {{- 'icon-locker.svg' | inline_asset_content -}}
+          {% if forloop.last %}
+            <p class="frete">
+              + Frete Grátis
+            </p>
+          {% endif %}
         </div>
-        <p>
-          {{ forloop.index | times: 5 }}% OFF
-          {% if forloop.last %} + Frete Grátis{% endif %}
-        </p>
-      </div>
-    {% endfor %}
-  </div>
-  
-  <ul class="bundle-products-wrapper">
-    {% for product in section.settings.collection.products %}
-      {% liquid
-        assign option_disabled = true
-        if variants_available_arr[forloop.index0]
-          assign option_disabled = false
-        endif
-      %}
-      {% render 'bundle-card', product: product, option_disabled: option_disabled, index: forloop.index0 %}
-    {% endfor %}
-  </ul>
-  
-  <div class="bundle-cart-wrapper">
-    <ul class="selected-bundle-products">
+      {% endfor %}
+    </div>
 
+    <ul class="bundle-products-wrapper">
+      {% for product in section.settings.collection.products %}
+        {% liquid
+          assign option_disabled = true
+          if variants_available_arr[forloop.index0]
+            assign option_disabled = false
+          endif
+        %}
+        {% render 'bundle-card'
+          , product: product
+          , option_disabled: option_disabled
+          , index: forloop.index0 %}
+      {% endfor %}
     </ul>
-    <button class="button button--primary" id="add-bundle-products" type="button">Add Products to Cart</button>
-  </div>
-</div>
+
+    <div class="bundle-cart-wrapper">
+      <ul class="selected-bundle-products"></ul>
+      <button
+        class="button button--primary"
+        id="add-bundle-products"
+        type="button">Add Products to Cart</button>
+    </div>
   </div>
   <div class="resume halfside"></div>
 </div>
-  
+
 <div class="popup-overlay" style="display: none;">
   <div class="popup-content">
     <div class="choose-options">
@@ -71,8 +75,8 @@
         options: [{% unless product.has_only_default_variant %}{% for option in product.options_with_values %}{ name: "{{ option.name }}", values: [{% for value in option.values %}"{{ value }}"{% unless forloop.last %}, {% endunless %}{% endfor %}] }{% unless forloop.last %}, {% endunless %}{% endfor %}{% endunless %}],
         title: "{{ product.title }}",
         price: {{ product.price }},
-        image: "{{ product.featured_image | image_url: width: 200 }}",
-        category: "{{ product.category }}"
+        category: "{{ product.category }}",
+        image: "{{ product.featured_image }}"
       },
     {% endfor %}
   };
@@ -104,6 +108,11 @@
       return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
+    // Função para reverter formatação de dinheiro para número
+    function moneyToNumber(price) {
+      return Number(price.replace('R$', '').replace('.', '').replace(',', '.'));
+    }
+
     // Retorna o índice do último produto que corresponde ao ID
     function findLastProductIndex(productsArray, id) {
       for (let i = productsArray.length - 1; i >= 0; i--) {
@@ -120,18 +129,16 @@
 
       preview_images.forEach(preview => {
         preview.classList.remove('active');
-        preview.querySelector('.preview-image').src = "";
       });
 
-      selectedProducts.forEach((product, index) => {
+      selectedProducts.forEach((produto, index) => {
         if(index < 4) {
           preview_images[index].classList.add('active');
-          preview_images[index].querySelector('.preview-image').src = product.image;
         }
       });
     }
 
-    // Função para atualizar a lista de produtos selecionados
+    // Função para atualizar a lista de produtos selecionados e os preços dos cards
     function updateSelectedProductsList() {
       const selectedProductsList = document.querySelector('.selected-bundle-products');
       selectedProductsList.innerHTML = '';
@@ -154,6 +161,25 @@
             discount = 0.80; // 20% de desconto para 4 itens ou mais
           }
           break;
+      }
+      if (qty <= 4) {
+        const discountedPrices = document.querySelectorAll('.discounted-price');
+        const regularPrices = document.querySelectorAll('.bundle-regular-price');
+        
+        discountedPrices.forEach(discountedPrice => {
+          let regularPrice = discountedPrice.dataset.price;
+          discountedPrice.innerText = moneyFormat(regularPrice*discount/100);
+        });
+
+        if(qty > 0) {
+          regularPrices.forEach(regularPrice => {
+            regularPrice.classList.remove('visually-hidden');
+          });
+        } else {
+          regularPrices.forEach(regularPrice => {
+            regularPrice.classList.add('visually-hidden');
+          });
+        }
       }
 
       let totalPrice = 0;
@@ -208,8 +234,7 @@
         
         selectedProducts.push({
           id: product.variants[0].id,
-          handle: productHandle,
-          image: product.image
+          handle: productHandle
         });
 
         updatePreviewImages();

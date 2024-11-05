@@ -16,9 +16,10 @@
   <div class="bundle-product-info">
     <div class="bundle-title-wrapper">
       <h3 class="bundle-product-title">{{ product.title | remove: 'LIQUIDZ®' | remove: ' - ' }}</h3>
-      {% if product.category == 'Bebidas em pó' or product.category == 'Vitaminas e suplementos' %}
-        <p>Caixa (14 sticks)</p>
-      {% endif %}
+      <div class="bundle-prices">
+        <s class="bundle-regular-price visually-hidden">{{ product.price | money }}</s>
+        <p class="bundle-discount-price"><span class="discounted-price" data-price="{{ product.price }}">{{ product.price | money }}</span>/cada</p>
+      </div>
     </div>
     {% if product.has_only_default_variant %}
       {% render 'products-qty-input', quantity: 4, variant: product, index: index, disabled: option_disabled %}
