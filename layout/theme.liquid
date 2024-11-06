@@ -307,7 +307,7 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
     
-    {% unless page.template == "/page"  %}
+    {% unless template.name == 'pages' %} 
       {% sections 'header-group' %}
     {% endunless %}
 
