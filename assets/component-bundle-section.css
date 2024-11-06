@@ -295,6 +295,10 @@ line-height: 20.4px;
   .cart-wrapper-desktop {
     display: none;
   }
+
+   .bundle {
+     padding: 0;
+   }
 }
 
 .bundle-cart-wrapper {
