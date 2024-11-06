@@ -188,7 +188,11 @@ line-height: 20.4px;
   .bundle {
     display: flex;
     gap: 50px;
-    padding-top: 5rem;
+    padding-top: 2.5rem;
+  }
+
+  .dinamic-discount span {
+    font-size: 16px;
   }
 
   .guarantee {
