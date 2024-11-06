@@ -242,6 +242,7 @@
       // Adiciona div com preço por stick e preço total se quantidade de produtos selecionados > 0
       if(qty > 0) {
         const price_per_unit = document.createElement('div');
+        price_per_unit.className = 'total-resume';
         price_per_unit.innerHTML = `
           <span>Você ganhou ${((1 - discount)*100).toFixed(0)}% OFF</span>
           <div class="bundle-cart-price">
