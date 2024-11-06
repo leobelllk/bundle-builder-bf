@@ -354,6 +354,7 @@ line-height: 24px;
 .guarantee {
   display: flex;
   align-items: start;
+  gap: 10px;
 }
 
 .guarantee-text {
