@@ -380,3 +380,7 @@ font-style: normal;
 font-weight: 700;
 line-height: 18px;
 }
+
+.total-resume span {
+  color: white;
+}
