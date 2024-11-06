@@ -394,6 +394,12 @@ background: #9BDB22;
 }
 
 
-.total-resume span {
-  color: white;
+.dinamic-discount span {
+  color: #0F0F0F;
+text-align: center;
+font-family: Inter;
+font-size: 11.2px;
+font-style: normal;
+font-weight: 600;
+line-height: 18px; 
 }
