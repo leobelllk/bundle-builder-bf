@@ -135,6 +135,11 @@
   z-index: 10;
 }
 
+.popup {
+  padding: 20px;
+  width:100%;
+}
+
 .popup-content {
   background: #fff;
   padding: 20px;
@@ -230,7 +235,7 @@
   }
 
           .popup img {
-            width: 400px
+            width: 100%;
         }
 }
 
@@ -289,7 +294,7 @@ text-decoration-line: underline;
 
         .popup-close {
           position: absolute;
-          right: 6px;
+          right: 25px;
             cursor: pointer;
           font-size: 14px;
             color: black;
@@ -311,6 +316,7 @@ padding: 0 1.5rem;
 }
 
 #add-bundle-products {
+  width: 100%;
 background: white;
   color: #101010;
 text-align: center;
