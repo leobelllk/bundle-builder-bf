@@ -8,9 +8,8 @@
 
 {% assign discount_images = 'https://cdn.shopify.com/s/files/1/0837/5153/4895/files/discount-5.png?v=1730776254,https://cdn.shopify.com/s/files/1/0837/5153/4895/files/discount-10.png?v=1730776254,https://cdn.shopify.com/s/files/1/0837/5153/4895/files/discount-15.png?v=1730776253,https://cdn.shopify.com/s/files/1/0837/5153/4895/files/discount-20.png?v=1730776253' | split: ',' %}
 
-<div class="fullsize-dp">
-  <div class="first-column halfside">
     <div class="bundle">
+      <div class="column-dp halfside">
           <div class="bundle_titles">
       <h2>Selecione os produtos</h2>
       <div class="low-stock">• &nbsp<en>ESTOQUE BAIXO:</en>
@@ -53,8 +52,9 @@
         {% endfor %}
       </ul>
 
-      <div class="ingredients">
-        <p class="ingredients-table" id="ingredients" onclick="openPopup()">Confira a tabela e os ingredientes</p>
+        <div class="ingredients">
+          <p class="ingredients-table" id="ingredients" onclick="openPopup()">Confira a tabela e os ingredientes</p>
+        </div>
       </div>
 
       <div class="popup-background" id="popup-background"></div>
@@ -64,6 +64,7 @@
         <img src="https://cdn.shopify.com/s/files/1/0837/5153/4895/files/image_1.png?v=1730842841" alt="Image">
     </div>
 
+      <div class="column-dp halfside">
         <div class="bundle-cart-wrapper">
           <div class="resume-title">
             <h2>Carrinho de Compras</h2>
@@ -82,11 +83,8 @@
             </div>
           </div>
         </div>
+      </div>
     </div>
-  </div>
-  <div class="resume halfside">
-  </div>
-</div>
 
 <div class="popup-overlay" style="display: none;">
   <div class="popup-content">
