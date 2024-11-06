@@ -135,11 +135,6 @@
   z-index: 10;
 }
 
-.popup {
-  padding: 20px;
-  width:100%;
-}
-
 .popup-content {
   background: #fff;
   padding: 20px;
@@ -237,6 +232,11 @@
           .popup img {
             width: 100%;
         }
+
+  .popup {
+  padding: 20px;
+  width:100%;
+}
 }
 
 .bundle-cart-wrapper {
