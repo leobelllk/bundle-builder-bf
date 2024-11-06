@@ -350,3 +350,8 @@ line-height: 24px;
 .selected-bundle-products li > :last-child {
   text-align: right;
 }
+
+display {
+  flex;
+  align-items: start;
+}
