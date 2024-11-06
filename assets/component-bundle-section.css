@@ -348,7 +348,7 @@ line-height: 24px;
 }
 
 .selected-bundle-products li:last-child {
-  text-align: right;
+  border-bottom: none;
 }
 
 .bundle-cart-price,
