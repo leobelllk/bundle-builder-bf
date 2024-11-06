@@ -347,8 +347,8 @@ line-height: 24px;
     padding: 20px 0;
 }
 
-.selected-bundle-products li:last-child {
-  border-bottom: none;
+.selected-bundle-products li > :last-child {
+  text-align: right;
 }
 
 .bundle-cart-price,
@@ -386,6 +386,7 @@ line-height: 18px;
   border-radius: 4px;
 border: 1px solid #9BDB22;
 }
+
 
 .total-resume span {
   color: white;
