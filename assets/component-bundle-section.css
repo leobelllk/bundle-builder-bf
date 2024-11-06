@@ -388,6 +388,11 @@ line-height: 18px;
 border: 1px solid #9BDB22;
 }
 
+.dinamic-discount {
+  border-radius: 4px;
+background: #9BDB22;
+}
+
 
 .total-resume span {
   color: white;
