@@ -351,6 +351,11 @@ line-height: 24px;
   text-align: right;
 }
 
+.bundle-cart-price,
+.bundle-total-price {
+  color: white;
+}
+
 .guarantee {
   display: flex;
   align-items: center;
