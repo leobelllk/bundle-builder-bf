@@ -391,6 +391,7 @@ border: 1px solid #9BDB22;
 .dinamic-discount {
   border-radius: 4px;
 background: #9BDB22;
+  text-align: center;
 }
 
 
@@ -402,4 +403,5 @@ font-size: 11.2px;
 font-style: normal;
 font-weight: 600;
 line-height: 18px; 
+  text-transform: uppercase;
 }
