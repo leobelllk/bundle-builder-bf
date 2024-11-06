@@ -351,6 +351,8 @@ line-height: 24px;
   text-align: right;
 }
 
+.resume-content .selected-bundle-products li:last-child { border-bottom: none; }
+
 .bundle-cart-price,
 .bundle-total-price {
   color: white;
