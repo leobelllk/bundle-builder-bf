@@ -409,4 +409,5 @@ line-height: 18px;
 .bundle-cart-price {
   display: flex;
   justify-content: space-between;
+  padding-top: 10px;
 }
