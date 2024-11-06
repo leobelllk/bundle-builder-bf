@@ -177,7 +177,7 @@
   }
 
   .guarantee {
-    padding: 0px 30px;
+    padding: 0px 30px !important;
   }
   
   .bundle-cart-wrapper {
