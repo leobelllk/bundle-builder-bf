@@ -245,6 +245,10 @@
   .popup-close {
     right: 25px !important;
   }
+
+  .cart-wrapper-desktop {
+    display: none;
+  }
 }
 
 .bundle-cart-wrapper {
