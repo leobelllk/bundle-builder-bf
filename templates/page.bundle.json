@@ -26,10 +26,20 @@
       "settings": {
         "collection": "bundle-products"
       }
+    },
+    "custom_liquid_ze4Tch": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<style>\n\n.footer-wrapper {\nbackground: #0f0f0f;\n}\n\n.footer-container {\ndisplay: flex;\nflex-direction: column-reverse;\ngap: 10px;\n}\n\n.footer-text {\ncolor: #F7F6F2;\nfont-family: Inter;\nfont-size: 12px;\nfont-style: normal;\nfont-weight: 400;\nline-height: 18px;\ntext-align: center;\n}\n\n.politics {\ndisplay: flex;\ngap: 20px;\njustify-content: center;\n}\n\n@media screen and (min-width: 768px) {\n\n.footer-wrapper {\n padding: 10px 0;\n}\n\n.footer-container {\nflex-direction: row;\nalign-items: center;\njustify-content: space-between;\n}\n}\n\n</style>\n\n<div class=\"footer-wrapper \">\n<div class=\"footer-container page-width\">\n<div class=\"copywrit\">\n<p class=\"footer-text\">© 2024 Liquidz. All right reserved.</p>\n</div>\n<div class=\"politics\">\n<a href=\"https://liquidz.com.br/pages/politica-de-privacidade\" class=\"footer-text link\">Política de Privacidade</a>\n<a href=\"https://liquidz.com.br/pages/termos-de-uso\" class=\"footer-text link\">Termos de Uso</a>\n</div>\n</div>\n</div>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
     }
   },
   "order": [
     "custom_liquid_MYrFXm",
-    "bundle"
+    "bundle",
+    "custom_liquid_ze4Tch"
   ]
 }
