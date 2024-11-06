@@ -188,6 +188,7 @@ line-height: 20.4px;
   .bundle {
     display: flex;
     gap: 50px;
+    padding-top: 5rem;
   }
 
   .guarantee {
