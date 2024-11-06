@@ -405,3 +405,8 @@ font-weight: 600;
 line-height: 18px; 
   text-transform: uppercase;
 }
+
+.bundle-cart-price {
+  display: flex;
+  justify-content: space-between;
+}
