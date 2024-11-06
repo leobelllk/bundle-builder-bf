@@ -70,7 +70,7 @@
             <h2>Carrinho de Compras</h2>
           </div>
           <div class="resume-content">
-          <ul class="selected-bundle-products"></ul>
+          <ul class="selected-bundle-products-mobile"></ul>
             <div class="button-adjust">
           <button
             class="button button--primary"
@@ -93,7 +93,7 @@
             <h2>Carrinho de Compras</h2>
           </div>
           <div class="resume-content">
-          <ul class="selected-bundle-products"></ul>
+          <ul class="selected-bundle-products-desktop"></ul>
             <div class="button-adjust">
           <button
             class="button button--primary"
@@ -193,7 +193,54 @@
 
     // Função para atualizar a lista de produtos selecionados e os preços dos cards
     function updateSelectedProductsList() {
-      const selectedProductsList = document.querySelector('.selected-bundle-products');
+      const selectedProductsList = document.querySelector('.selected-bundle-products-desktop');
+      selectedProductsList.innerHTML = '';
+      
+      const qty = selectedProducts.length;
+      let discount = 1;
+
+      switch (qty) {
+        case 1:
+          discount = 0.95; // 5% de desconto
+          break;
+        case 2:
+          discount = 0.90; // 10% de desconto
+          break;
+        case 3:
+          discount = 0.85; // 15% de desconto
+          break;
+        default:
+          if (qty >= 4) {
+            discount = 0.80; // 20% de desconto para 4 itens ou mais
+          }
+          break;
+      }
+      if (qty <= 4) {
+        const discountedPrices = document.querySelectorAll('.discounted-price');
+        const regularPrices = document.querySelectorAll('.bundle-regular-price');
+        
+        discountedPrices.forEach(discountedPrice => {
+          let regularPrice = discountedPrice.dataset.price;
+          discountedPrice.innerText = moneyFormat(regularPrice*discount/100);
+        });
+
+        if(qty > 0) {
+          regularPrices.forEach(regularPrice => {
+            regularPrice.classList.remove('visually-hidden');
+          });
+        } else {
+          regularPrices.forEach(regularPrice => {
+            regularPrice.classList.add('visually-hidden');
+          });
+        }
+      }
+
+      let totalPrice = 0;
+      let totalDiscountedPrice = 0;
+
+    // Função para atualizar a lista de produtos selecionados e os preços dos cards
+    function updateSelectedProductsList() {
+      const selectedProductsList = document.querySelector('.selected-bundle-products-mobile');
       selectedProductsList.innerHTML = '';
       
       const qty = selectedProducts.length;
