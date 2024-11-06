@@ -427,3 +427,7 @@ line-height: 18px;
   justify-content: space-between;
   padding-top: 10px;
 }
+
+.bundle-cart-item-price s {
+  color: rgba(247, 246, 242, 0.50);
+}
