@@ -360,7 +360,6 @@ line-height: 24px;
   text-align: right;
 }
 
-.selected-bundle-products li:first-child,
 .selected-bundle-products li:last-child {
   border-bottom: none;
 }
