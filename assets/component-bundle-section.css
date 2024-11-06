@@ -173,6 +173,7 @@
 
   .bundle {
     display: flex;
+    gap: 50px;
   }
 
   .halfside {
