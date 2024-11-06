@@ -347,7 +347,7 @@ line-height: 24px;
     padding: 20px 0;
 }
 
-.selected-bundle-products li > :last-child {
+.selected-bundle-products li:last-child {
   text-align: right;
 }
 
