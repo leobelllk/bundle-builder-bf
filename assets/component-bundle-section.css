@@ -15,6 +15,10 @@ font-weight: 700;
 line-height: 20.4px;
 }
 
+.open-popup {
+  cursor: pointer;
+}
+
 .preview-products {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
