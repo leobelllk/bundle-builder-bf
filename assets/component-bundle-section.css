@@ -237,6 +237,10 @@
   padding: 20px;
   width:100%;
 }
+
+  .popup-close {
+    right: 25px !important;
+  }
 }
 
 .bundle-cart-wrapper {
@@ -294,7 +298,7 @@ text-decoration-line: underline;
 
         .popup-close {
           position: absolute;
-          right: 25px;
+          right: 6px;
             cursor: pointer;
           font-size: 14px;
             color: black;
