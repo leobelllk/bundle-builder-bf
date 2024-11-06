@@ -355,7 +355,12 @@ line-height: 24px;
 
 .bundle-cart-price,
 .bundle-total-price {
-  color: white;
+  color: #F7F6F2;
+font-family: Inter;
+font-size: 12px;
+font-style: normal;
+font-weight: 600;
+line-height: 18px;
 }
 
 .guarantee {
