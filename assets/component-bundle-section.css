@@ -197,6 +197,7 @@ line-height: 20.4px;
 
   .guarantee {
     padding: 0px 30px !important;
+    gap: 30px !important;
   }
   
   .bundle-cart-wrapper {
@@ -271,6 +272,8 @@ line-height: 20.4px;
   .cart-wrapper-desktop {
     padding: 20px 0 0 0;
   }
+
+  .guarantee 
 
 }
 
