@@ -413,7 +413,7 @@ line-height: 24px;
 .selected-bundle-products li{
   display: grid;
   grid-template-columns: 1fr 5fr 3fr;
-  border-bottom: 1px solid white;
+  border-top: 1px solid white;
     padding: 20px 0;
 }
 
@@ -421,8 +421,8 @@ line-height: 24px;
   text-align: right;
 }
 
-.selected-bundle-products li:last-child {
-  border-bottom: none;
+.selected-bundle-products li:first-child {
+  border-top: none;
 }
 
 .resume-content .selected-bundle-products li:last-child { border-bottom: none; }
