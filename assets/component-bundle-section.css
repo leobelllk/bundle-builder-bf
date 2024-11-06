@@ -5,6 +5,16 @@
   --white: #F7F6F2;
 }
 
+.include {
+  color: #F7F6F2;
+text-align: center;
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 700;
+line-height: 20.4px;
+}
+
 .preview-products {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
