@@ -381,6 +381,12 @@ font-weight: 700;
 line-height: 18px;
 }
 
+.total-resume {
+  margin: 20px 0 0 0;
+  border-radius: 4px;
+border: 1px solid #9BDB22;
+}
+
 .total-resume span {
   color: white;
 }
