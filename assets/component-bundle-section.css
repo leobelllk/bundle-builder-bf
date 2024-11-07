@@ -568,4 +568,9 @@ line-height: 18px;
 .mobile-sticky-button {
   position: fixed;
   bottom: 0;
+  z-index: 998;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+background: rgba(254, 254, 254, 0.80);
+box-shadow: 0px -4px 32px 0px rgba(0, 0, 0, 0.12);
+backdrop-filter: blur(16px);
 }
