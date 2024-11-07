@@ -167,7 +167,8 @@ line-height: 20.4px;
   border: none;
 }
 
-.preview-image-wrapper {
+.preview-image-wrapper,
+.preview-product.active {
   transition: 1s all ease;
 }
 
