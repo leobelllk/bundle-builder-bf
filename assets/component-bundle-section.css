@@ -331,7 +331,7 @@ line-height: 20.4px;
     font-style: normal;
     line-height: 24px;
     /* 171.429% */
-    width: fit-content;
+    width: 100%;
     padding: 5px 15px;
     margin: 15px 0;
   }
