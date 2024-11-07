@@ -86,7 +86,7 @@
       </div>
     </div>
 
-    <div class="mobile-sticky-button active">
+    <div class="mobile-sticky-button">
 <div class="sticky-button page-width">
   <div class="sticky-content">
     <div class="sticky-fc">
@@ -539,13 +539,8 @@
             document.getElementById('popup').style.display = 'none';
         }
 
-  $(window).scroll(function(){
-                   if ($(this).scrollTop() > 900) {
-                        $(".mobile-sticky-button").fadeIn();
-                    } else {
-                        $(".mobile-sticky-button").fadeOut();
-                    }
-           });
+  window.addEventListener('scroll', function() { const button = document.querySelector('.mobile-sticky-button'); if (window.scrollY > 300) { // Altere o valor 300 para a altura desejada 
+    button.classList.add('active'); } else { button.classList.remove('active'); } });
 
 </script>
 
