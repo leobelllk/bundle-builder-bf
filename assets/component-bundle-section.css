@@ -170,7 +170,7 @@ line-height: 20.4px;
 .preview-image-wrapper,
 .preview-product.active,
 .locker-icon,
-.sale-tag {
+.preview-product-wrapper:has(.active) .sale-tag {
   transition: 1s all ease;
 }
 
