@@ -167,6 +167,10 @@ line-height: 20.4px;
   border: none;
 }
 
+.preview-image-wrapper {
+  transition: 1s all ease;
+}
+
 @media screen and (min-width: 750px) {
     .fullsize-dp {
     padding: 0 5rem;
