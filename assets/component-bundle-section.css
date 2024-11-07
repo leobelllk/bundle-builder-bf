@@ -315,6 +315,28 @@ line-height: 20.4px;
    .bundle {
      padding: 0;
    }
+
+    .low-stock {
+    display: flex;
+    padding: 3px 12px 2px 0px;
+    align-items: center;
+    border-radius: 4px;
+    background: rgba(251, 58, 61, 0.10);
+    color: #FB3A3D;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 24px;
+    /* 171.429% */
+    width: fit-content;
+    padding: 5px 15px;
+    margin: 15px 0;
+  }
+
+  .low-stock en {
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  
 }
 
 .bundle-cart-wrapper {
