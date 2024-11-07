@@ -566,6 +566,7 @@ line-height: 18px;
 }
 
 .mobile-sticky-button {
+  width: 100%;
   display: none;
   position: fixed;
   bottom: 0;
