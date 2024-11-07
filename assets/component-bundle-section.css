@@ -172,6 +172,7 @@ line-height: 20.4px;
 .locker-icon,
 .preview-product-wrapper:has(.active) .sale-tag,
 .not-chosen .quantity__button,
+.popup,
 .bundle-card .quantity__button.disabled,
 .quantity__input,
 .quantity__minus,
