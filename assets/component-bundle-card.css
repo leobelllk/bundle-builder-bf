@@ -126,3 +126,13 @@
   justify-content: center;
   border-radius: var(--inputs-radius);
 }
+
+.sticky-disc {
+  color: #34652A;
+text-align: center;
+font-family: Inter;
+font-size: 10px;
+font-style: normal;
+font-weight: 700;
+line-height: 12.48px; 
+}
