@@ -549,5 +549,5 @@ line-height: 18px;
 .sticky-fc {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
