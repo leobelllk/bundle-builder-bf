@@ -539,23 +539,23 @@
             document.getElementById('popup').style.display = 'none';
         }
 
-  function isMobile() { return window.innerWidth <= 768; // Define uma largura máxima para dispositivos móveis (ajustável) }
+        function isMobile() {
+            return window.innerWidth <= 768; // Define uma largura máxima para dispositivos móveis (ajustável)
+        }
 
-                       if (isMobile()) {
-        window.addEventListener('scroll', function() {
-            const button = document.querySelector('.mobile-sticky-button');
-            const scrollPosition = window.scrollY + window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
+        if (isMobile()) {
+            window.addEventListener('scroll', function() {
+                const button = document.querySelector('.mobile-sticky-button');
+                const scrollPosition = window.scrollY + window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
 
-            if (window.scrollY > 100 && scrollPosition < documentHeight) { // Altere o valor 300 para a altura desejada
-                button.style.display = 'block'; // Garante que o botão seja exibido inicialmente
-                setTimeout(() => button.classList.add('active'), 10); // Usa timeout para aplicar a classe ativa
-            } else {
-                button.classList.remove('active');
-                setTimeout(() => button.style.display = 'none', 500); // Aguarda a transição antes de esconder
-            }
-        });
-                       }
+                if (window.scrollY > 300 && scrollPosition < documentHeight) { // Altere o valor 300 para a altura desejada
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
 </script>
 
 {% schema %}
