@@ -170,7 +170,8 @@ line-height: 20.4px;
 .preview-image-wrapper,
 .preview-product.active,
 .locker-icon,
-.preview-product-wrapper:has(.active) .sale-tag {
+.preview-product-wrapper:has(.active) .sale-tag,
+.quantity__button{
   transition: 1s all ease;
 }
 
