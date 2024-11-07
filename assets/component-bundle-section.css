@@ -536,6 +536,10 @@ line-height: 18px;
   color: rgba(247, 246, 242, 0.50);
 }
 
+.sticky-button {
+  padding: 20px 0;
+}
+
 .sticky-content {
   display: flex;
   justify-content: space-between;
