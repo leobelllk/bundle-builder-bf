@@ -167,9 +167,7 @@ line-height: 20.4px;
   border: none;
 }
 
-.preview-image-wrapper,
-.preview-product.active,
-.locker-icon{
+.bundle {
   transition: 1s all ease;
 }
 
