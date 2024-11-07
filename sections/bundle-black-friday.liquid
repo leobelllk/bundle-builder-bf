@@ -539,6 +539,14 @@
             document.getElementById('popup').style.display = 'none';
         }
 
+  $(window).scroll(function(){
+                   if ($(this).scrollTop() > 900) {
+                        $(".mobile-sticky-button").fadeIn();
+                    } else {
+                        $(".mobile-sticky-button").fadeOut();
+                    }
+           });
+
 </script>
 
 {% schema %}
