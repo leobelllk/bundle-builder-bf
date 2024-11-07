@@ -539,6 +539,9 @@
             document.getElementById('popup').style.display = 'none';
         }
 
+  function isMobile() { return window.innerWidth <= 768; // Define uma largura máxima para dispositivos móveis (ajustável) }
+
+                       if (isMobile()) {
         window.addEventListener('scroll', function() {
             const button = document.querySelector('.mobile-sticky-button');
             const scrollPosition = window.scrollY + window.innerHeight;
@@ -552,7 +555,7 @@
                 setTimeout(() => button.style.display = 'none', 500); // Aguarda a transição antes de esconder
             }
         });
-
+                       }
 </script>
 
 {% schema %}
