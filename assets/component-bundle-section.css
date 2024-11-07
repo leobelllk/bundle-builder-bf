@@ -172,6 +172,7 @@ line-height: 20.4px;
 .locker-icon,
 .preview-product-wrapper:has(.active) .sale-tag,
 .not-chosen .quantity__button,
+.bundle-card .quantity__button,
 .quantity__button:not(:focus-visible):not(.focused){
   transition: 1s all ease;
 }
