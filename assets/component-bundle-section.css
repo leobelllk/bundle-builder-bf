@@ -198,6 +198,10 @@ line-height: 20.4px;
 
 @media screen and (min-width: 768px) {
 
+  .mobile-sticky-button {
+    display: none;
+  }
+
   .bundle {
     display: flex;
     gap: 50px;
