@@ -172,7 +172,9 @@ line-height: 20.4px;
 .locker-icon,
 .preview-product-wrapper:has(.active) .sale-tag,
 .not-chosen .quantity__button,
-.quantity__input{
+.quantity__input,
+.quantity__minus,
+.quantity__plus{
   transition: 1s all ease;
 }
 
