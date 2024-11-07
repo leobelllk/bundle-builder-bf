@@ -575,3 +575,9 @@ background: rgba(254, 254, 254, 0.80);
 box-shadow: 0px -4px 32px 0px rgba(0, 0, 0, 0.12);
 backdrop-filter: blur(16px);
 }
+
+.mobile-sticky-button.active { 
+  display: block; 
+  transform: translateX(-50%) translateY(0); 
+  opacity: 1; 
+}
