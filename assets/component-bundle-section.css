@@ -564,3 +564,8 @@ line-height: 18px;
 .total-disc {
   margin: 0;
 }
+
+.mobile-sticky-button {
+  position: fixed;
+  bottom: 0;
+}
