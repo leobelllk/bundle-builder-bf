@@ -294,7 +294,13 @@
         }
         selectedProductsList.appendChild(price_per_unit);
       }
-      document.querySelector('.sticky-disc').innerText = `${((1 - discount) * 100).toFixed(0)}%`; 
+      
+      if (qty > 3 ){
+      document.querySelector('.sticky-disc').innerText = `${((1 - discount) * 100).toFixed(0)}% + FRETE GRÁTIS`; 
+        }
+      else {
+        document.querySelector('.sticky-disc').innerText = `${((1 - discount) * 100).toFixed(0)}%`; 
+      }
       document.querySelector('.sticky-price').innerHTML = `<s>${moneyFormat(totalPrice)}</s> ${moneyFormat(totalDiscountedPrice)}`; 
       document.querySelector('.total-disc').innerText = `Economizou: ${moneyFormat(totalPrice - totalDiscountedPrice)}`;
 
