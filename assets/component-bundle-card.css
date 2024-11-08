@@ -2,15 +2,14 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 77px;
   border-radius: 4px;
   border: 1px solid var(--black);
   overflow: hidden;
 }
 
 .bundle-image-wrapper {
-  width: 75px;
-  height: auto;
+  width: 65px;
+  height: 65px;
   position: relative;
   display: flex;
   align-self: stretch;
