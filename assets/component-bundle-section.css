@@ -291,7 +291,10 @@ line-height: 20.4px;
     padding: 20px 0 0 0;
   }
 
-  .guarantee 
+  .close-popup {
+    top: 4px;
+    right: 2px;
+  }
 
 }
 
