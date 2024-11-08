@@ -1,0 +1,31 @@
+{% if product != blank %} 
+   {% capture product_data_attribute %}data-oke-reviews-product-id="shopify-{{ product.id }}"{% endcapture %} 
+{% endif %} 
+<div data-oke-star-rating {{ product_data_attribute }} data-oke-all-reviews="true">{{ product.metafields.okendo.StarRatingSnippet }}</div>
+
+<style>
+  .oke-sr-total-text,
+  .oke-sr-label-text,
+  .oke-sr-count-number {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: "Inter";
+    color: white;
+  }
+
+  @media screen and (max-width: 767px) {
+    .oke-sr-total-text,
+  .oke-sr-label-text,
+  .oke-sr-count-number {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: "Inter";
+    color: black;
+  }
+
+    .oke-sr {
+          --oke-stars-foregroundColor: #59EF80;
+      --oke-stars-borderColor: #59EF80;
+    }
+  }
+</style>
