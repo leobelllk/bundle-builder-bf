@@ -301,7 +301,6 @@ line-height: 20.4px;
 
   .mobile-sticky-button {
   width: 100%;
-  display: none;
   position: fixed;
   bottom: 0;
   z-index: 998;
@@ -315,7 +314,6 @@ backdrop-filter: blur(16px);
 }
 
 .mobile-sticky-button.active { 
-  display: block;  
 transform: translateX(-50%) translateY(0);
 }
 
