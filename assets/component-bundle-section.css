@@ -676,21 +676,12 @@ background: #9BDB22;
 }
 
 .close-popup {
-    color: #000;
-text-align: center;
-font-family: Inter;
-font-size: 14px;
-font-style: normal;
-font-weight: 700;
-line-height: 24px; /* 171.429% */
-text-transform: uppercase;
-  border-radius: 44px;
-background: white;
-  padding: 15px 32px;
-  border: 1px solid black;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 100%;
+    position: absolute;
+          right: 6px;
+            cursor: pointer;
+          font-size: 14px;
+            color: black;
+            font-weight: bold;
 }
 
 
