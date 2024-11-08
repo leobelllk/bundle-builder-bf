@@ -417,9 +417,8 @@ text-decoration-line: underline;
         }
         #popup {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            left: 0%;
+            transform: translate(-100%, 0%);
             background: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
           z-index: 1000;
