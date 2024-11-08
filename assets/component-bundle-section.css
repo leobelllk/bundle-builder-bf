@@ -592,6 +592,8 @@ line-height: 12.48px;
 }
 
 .sticky-price {
+  display: flex;
+  flex-direction: column;
   color: #000;
 font-family: Inter;
 font-size: 16px;
