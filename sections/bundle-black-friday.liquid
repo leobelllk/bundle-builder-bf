@@ -296,7 +296,7 @@
       }
       
       if (qty > 3 ){
-      document.querySelector('.sticky-disc').innerText = `${((1 - discount) * 100).toFixed(0)}% + <br>FRETE GRÁTIS`; 
+      document.querySelector('.sticky-disc').innerHTML = `${((1 - discount) * 100).toFixed(0)}% + <br>FRETE GRÁTIS`; 
         }
       else {
         document.querySelector('.sticky-disc').innerText = `${((1 - discount) * 100).toFixed(0)}%`; 
