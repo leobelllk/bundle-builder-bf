@@ -402,6 +402,7 @@ text-decoration-line: underline;
         }
         #popup-background.show, #popup.show {
             opacity: 1;
+          transform: translate(-50%, -100%);
         }
         #popup-background {
             position: fixed;
@@ -419,6 +420,7 @@ text-decoration-line: underline;
             background: white;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          z-index: 1000;
         }
 
         .popup-close {
