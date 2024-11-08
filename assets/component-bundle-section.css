@@ -694,4 +694,8 @@ background: transparent;
             font-weight: bold;
 }
 
+.details.close-popup {
+  background: transparent;
+}
+
 
