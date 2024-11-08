@@ -325,6 +325,14 @@ transform: translateX(-50%) translateY(0);
   width:95%;
 }
 
+  #popup {
+    transform: translate(-50%, 100%);
+  }
+
+    #popup.show {
+    transform: translate(-50%, -100%);
+  }
+
   .cart-wrapper-desktop {
     display: none;
   }
