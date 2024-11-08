@@ -150,6 +150,7 @@ line-height: 20.4px;
 }
 
 .popup-content {
+  position: relative;
   background: #fff;
   padding: 20px;
   border-radius: 8px;
