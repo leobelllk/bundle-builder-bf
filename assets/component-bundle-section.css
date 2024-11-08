@@ -301,7 +301,8 @@ line-height: 20.4px;
   }
 
   .close-popup  {
-    right: 45px;
+    top: 9px;
+    right: 6px;
   }
 
   .mobile-sticky-button {
