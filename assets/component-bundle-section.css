@@ -202,16 +202,6 @@ line-height: 20.4px;
     display: none;
   }
 
-   #popup.show {
-          left: 50%;
-          transform: translate(-50%, 0%);
-        }
-        
-        #popup {
-            left: 0%;
-            transform: translate(-100%, 0%);
-        }
-
   .bundle {
     display: flex;
     gap: 50px;
@@ -340,7 +330,7 @@ transform: translateX(-50%) translateY(0);
   }
 
     #popup.show {
-    transform: translate(-50%, -100%) !important;
+    transform: translate(-50%, -100%);
   }
 
   .cart-wrapper-desktop {
@@ -415,6 +405,8 @@ text-decoration-line: underline;
         }
         #popup.show {
             opacity: 1;
+          left: 50%;
+          transform: translate(-50%, 0%);
         }
         #popup-background {
           display: none;
@@ -427,6 +419,8 @@ text-decoration-line: underline;
         }
         #popup {
             position: fixed;
+            left: 0%;
+            transform: translate(-100%, 0%);
             background: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
           z-index: 1000;
