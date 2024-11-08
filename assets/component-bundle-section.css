@@ -692,6 +692,7 @@ background: transparent;
           font-size: 14px;
             color: black;
             font-weight: bold;
+  z-index: 999;
 }
 
 .details.close-popup {
