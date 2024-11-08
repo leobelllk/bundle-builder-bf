@@ -593,6 +593,15 @@ font-weight: 400;
 line-height: 12.48px;
 }
 
+.sticky-price {
+  color: #000;
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+
 .sticky-disc {
   color: #34652A;
 text-align: center;
