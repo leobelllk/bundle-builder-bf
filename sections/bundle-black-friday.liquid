@@ -570,7 +570,15 @@
     });
   });
 
-   function openPopup() { document.getElementById('popup-background').classList.add('show'); document.getElementById('popup').classList.add('show'); } function closePopup() { document.getElementById('popup-background').classList.remove('show'); document.getElementById('popup').classList.remove('show'); }
+        function openPopup() {
+            document.getElementById('popup-background').classList.add('show');
+            document.getElementById('popup').classList.add('show');
+        }
+
+        function closePopup() {
+            document.getElementById('popup-background').classList.remove('show');
+            document.getElementById('popup').classList.remove('show');
+        }
 
         function isMobile() {
             return window.innerWidth <= 768; // Define uma largura máxima para dispositivos móveis (ajustável)
