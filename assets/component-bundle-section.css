@@ -587,4 +587,20 @@ line-height: 18px;
   margin: 0;
 }
 
+.sticky-disc {
+  color: #34652A;
+text-align: center;
+font-family: Inter;
+font-size: 10px;
+font-style: normal;
+font-weight: 700;
+line-height: 12.48px; 
+  display: flex;
+padding: 2px 6px;
+justify-content: center;
+align-items: center;
+  border-radius: 4px;
+background: #D1F8C8;
+}
+
 
