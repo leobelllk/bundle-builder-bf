@@ -668,7 +668,8 @@ line-height: 24px; /* 171.429% */
 text-transform: uppercase;
   border-radius: 44px;
 background: #9BDB22;
-  padding: 0px 32px;
+  padding: 15px 32px;
+  border: 0px;
 }
 
 
