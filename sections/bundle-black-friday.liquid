@@ -297,6 +297,22 @@
       document.querySelector('.sticky-disc').innerText = `${((1 - discount) * 100).toFixed(0)}%`; 
       document.querySelector('.sticky-price').innerHTML = `<s>${moneyFormat(totalPrice)}</s> ${moneyFormat(totalDiscountedPrice)}`; 
       document.querySelector('.total-disc').innerText = `Economizou: ${moneyFormat(totalPrice - totalDiscountedPrice)}`;
+
+      if (qty > 0) {
+        if (isMobile()) {
+            window.addEventListener('scroll', function() {
+                const button = document.querySelector('.mobile-sticky-button');
+                const scrollPosition = window.scrollY + window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+
+                if (window.scrollY > 200 && scrollPosition < documentHeight) { // Altere o valor 300 para a altura desejada
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+          }
     }
 
     // Adicionar produto quando clicar no +
@@ -562,22 +578,6 @@
             return window.innerWidth <= 768; // Define uma largura máxima para dispositivos móveis (ajustável)
         }
 
-  
-        if (qty > 0) {
-        if (isMobile()) {
-            window.addEventListener('scroll', function() {
-                const button = document.querySelector('.mobile-sticky-button');
-                const scrollPosition = window.scrollY + window.innerHeight;
-                const documentHeight = document.documentElement.scrollHeight;
-
-                if (window.scrollY > 200 && scrollPosition < documentHeight) { // Altere o valor 300 para a altura desejada
-                    button.classList.add('active');
-                } else {
-                    button.classList.remove('active');
-                }
-            });
-        }
-          }
 </script>
 
 {% schema %}
