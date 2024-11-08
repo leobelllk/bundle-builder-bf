@@ -20,7 +20,7 @@
         {% for i in (1..4) %}
           <div class="preview-product-wrapper">
             <div class="sale-tag">{{ forloop.index | times: 5 }}% OFF</div>
-            <div class="preview-product" id="preview-{{ forloop.index }}">
+            <div class="preview-product background-{{ forloop.index }}" id="preview-{{ forloop.index }}">
               <div class="preview-image-wrapper">
                 <img class="preview-image" src="{{ discount_images[forloop.index0] }}">
               </div>
