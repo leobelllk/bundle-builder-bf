@@ -326,11 +326,11 @@ transform: translateX(-50%) translateY(0);
 }
 
   #popup {
-    transform: translate(-50%, 100%);
+    transform: translate(-50%, 100%) !important;
   }
 
     #popup.show {
-    transform: translate(-50%, -100%);
+    transform: translate(-50%, -100%) !important;
   }
 
   .cart-wrapper-desktop {
