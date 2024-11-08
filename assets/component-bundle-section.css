@@ -325,13 +325,13 @@ transform: translateX(-50%) translateY(0);
   width:95%;
 }
 
-  #popup {
+  /* #popup {
     transform: translate(-50%, 100%) !important;
   }
 
     #popup.show {
     transform: translate(-50%, -100%);
-  }
+  } */
 
   .cart-wrapper-desktop {
     display: none;
@@ -415,11 +415,16 @@ text-decoration-line: underline;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
         }
-        #popup {
-            position: fixed;
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-          z-index: 1000;
+        #popup { 
+          opacity: 0; 
+          transition: opacity 0.5s ease; 
+          position: fixed; 
+          top: 50%; 
+          left: 50%; 
+          transform: translate(-50%, -50%); 
+          background: white; 
+          padding: 20px; 
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
         }
 
         .popup-close {
