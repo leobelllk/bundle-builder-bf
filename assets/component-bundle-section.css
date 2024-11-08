@@ -299,6 +299,10 @@ line-height: 20.4px;
     display: none;
   }
 
+  .close-popup  {
+    right: 45px;
+  }
+
   .mobile-sticky-button {
   width: 100%;
   position: fixed;
@@ -677,7 +681,8 @@ background: #9BDB22;
 
 .close-popup {
     position: absolute;
-          right: 6px;
+background: white;
+  border: 1px;
             cursor: pointer;
           font-size: 14px;
             color: black;
