@@ -1,0 +1,350 @@
+<style>
+  .video-container {
+    display: flex;
+  }
+
+  .light {
+    font-weight: 300;
+  }
+
+  .plyr_video {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .video-content-reviews {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+
+  .content-review {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .change-text {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 1; /* Garantir que o elemento comece visível */
+}
+
+  .btn-primary-rewind,
+  .btn-secondary-rewind{
+    cursor: pointer;
+  }
+
+  @media screen and (min-width: 1800px) {
+              .video-content-container {
+         left: 25% !important;
+       }
+  }
+
+  @media screen and (min-width: 1440px) {
+          .video-content-container {
+         left: 15%;
+       }
+  }
+
+  @media screen and (min-width: 1024px) and (max-width: 1439px) {
+              .video-content-container {
+         left: 10%;
+       }
+  }
+
+     @media screen and (min-width: 768px) and (max-width: 1024px) {
+       .video-content-container {
+         left: 5%;
+       }
+  }
+
+  @media screen and  (min-width: 768px) {
+
+    .plyr_video {
+      height: 800px;
+    }
+
+    .video-content-container {
+      position: absolute;
+      z-index: 1;
+      padding-top: 250px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-title,
+    .content-text,
+    .content-review {
+      color: white;
+    }
+
+    .content-title {
+      font-size: 50px;
+    }
+
+    .content-text {
+      padding-top: 20px;
+      padding-bottom: 50px;
+    }
+
+    .btn-primary-rewind {
+      background: #9BDB20;
+    padding: 20px 30px;
+    border-radius: 100px;
+    color: black;
+    font-weight: 500;
+       border: 0.2rem solid #9BDB20;
+    }
+
+    .btn-secondary-rewind {
+      background: transparent;
+      padding: 20px 30px;
+      border-radius: 100px;
+      color: white;
+      font-weight: 500;
+      border: 0.2rem solid white;
+    }
+
+    .video-content-reviews.mobile {
+      display: none;
+    }
+
+      .video-content-reviews {
+    padding-top: 50px;
+  }
+
+    .video-section {
+      position: relative;
+    }
+    
+  }
+
+  @media screen and (max-width: 767px) {
+    .video-player {
+      display: flex;
+      flex-direction: column-reverse;
+      margin-top: -50px
+    }
+
+    .video-section {
+      z-index: 10;
+      margin-top: -220px;
+    }
+
+    .btn-fullw {
+      width: 100%;
+    }
+
+    .video-content-container {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: #f8f6f3;
+    }
+
+    .video-content-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .content-title {
+      font-size: 30px;
+    }
+
+    .content-text {
+      font-size: 14px;
+      padding: 0 15px 15px 15px;
+    }
+
+    .video-content-title {
+      padding: 15px 15px 0 15px;
+    }
+
+    .video-content-title,
+    .content-text {
+      text-align: center;
+    }
+
+    .plyr_video {
+      height: 500px;
+    }
+
+    .btn-primary-rewind {
+      background: #9BDB20;
+    padding: 20px 30px;
+    border-radius: 100px;
+    color: black;
+      font-size: 16px;
+    font-weight: 500;
+       border: 0.2rem solid #9BDB20;
+    }
+
+    .btn-secondary-rewind {
+      background: transparent;
+      padding: 20px 30px;
+      border-radius: 100px;
+      color: black;
+      font-size: 16px;
+      font-weight: 500;
+      border: 0.2rem solid black;
+    }
+
+    .video-content-reviews.dekstop {
+      display: none;
+    }
+
+    .video-content-reviews {
+    display: flex;
+    justify-content: center;
+  }
+  }
+  
+</style>
+
+<script>
+  
+  document.addEventListener('DOMContentLoaded', function () {
+    const texts = ["ir mais longe.", "ter mais energia.", "viver mais."];
+    const changeTextElement = document.querySelector('.change-text');
+    let index = 0;
+
+    function changeText() {
+        // Fade out
+        changeTextElement.style.opacity = 0;
+
+        setTimeout(function () {
+            // Mudar o texto após o fade out
+            changeTextElement.textContent = texts[index];
+            index = (index + 1) % texts.length;
+
+            // Fade in
+            changeTextElement.style.opacity = 1;
+        }, 500); // 500ms para o fade out
+    }
+
+    setInterval(changeText, 2500); // Troca a cada 4 segundos
+});
+
+</script>
+
+<div 
+  class="video-player"
+  {% if section.settings.fullwidth %}
+    style="max-width: 100%!important;padding:0px"
+  {% endif %}
+>
+  <div class="video-section">
+    <div class="video-content-container">
+      <div class="video-content-title">
+        <h2 class="content-title light">Eletrólitos para você</h2>
+        <h2 class="content-title change-text">fazer mais.</h2>
+      </div>
+      <p class="content-text">ZERO Açúcar, com 3x mais Eletrólitos que as tradicionais do mercado.</p>
+      <div class="video-content-buttons">
+        <a href="https://oferta.liquidz.com.br/comprar"><button class="btn-primary-rewind btn-fullw">Experimente agora</button></a>
+        <a href="#whatis"><button class="btn-secondary-rewind btn-fullw" href="">O que é LIQUIDZ®?</button></a>
+      </div>
+      <div class="video-content-reviews dekstop">
+        {% render 'okendo-reviews-product-rating-summary', product: product %}
+        <!-- {% render 'white-5-stars' %}
+        <span class="content-review">Excelente</span>
+        <span class="content-review">4.9</span>
+        <span class="content-review">|</span>
+        <span class="content-review">948</span>
+        <span class="content-review">avaliações</span> -->
+      </div>
+      <div class="video-content-reviews mobile">
+        {% render 'okendo-reviews-product-rating-summary', product: product %}
+        <!-- {% render 'green-5-stars' %}
+        <span class="content-review">Excelente</span>
+        <span class="content-review">4.9</span>
+        <span class="content-review">|</span>
+        <span class="content-review">950</span>
+        <span class="content-review">avaliações</span> -->
+      </div>
+    </div>
+  </div>
+    <div
+      class="video-container"
+      {% if section.settings.fullwidth %}
+        style="width: 100%;"
+      {% endif %}
+    >
+      <video class="plyr_video" muted="" autoplay="" loop="" playsinline="" data-poster="">
+        <source src="https://storage.liquidz.com.br/lqdz-bg.mp4" type="video/mp4">
+      </video>
+    </div>
+</div>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var videos = document.querySelectorAll('.youtube, .vimeo');
+    function playPauseVideos() {
+      videos.forEach(function (video) {
+        if (section.settings.autoplay) {
+          video.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+
+        } else {
+          video.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        }
+      });
+    }
+    // Initial play/pause based on the 'Autoplay video' setting
+    playPauseVideos();
+    // Listen for changes in the 'Autoplay video' setting and play/pause accordingly
+    document.getElementById('section_autoplay').addEventListener('change', function () {
+      section.settings.autoplay = this.checked;
+      playPauseVideos();
+    });
+  });
+</script>
+
+<script>
+
+
+  
+</script>
+{% schema %}
+{
+  "name": "new-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Video section heading",
+
+      "default": "Video Autoplay"
+    },
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Make Full Width"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay video",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "controller",
+      "label": "Enable Controls",
+      "default": false
+    },
+    {
+      "type": "video",
+      "id": "self_hosted_video",
+      "label":"Select Video"
+    }
+  ],
+  "presets": [
+    {
+      "name": "new-hero"
+    }
+  ]
+}
+{% endschema %}
