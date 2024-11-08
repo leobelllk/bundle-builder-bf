@@ -700,7 +700,7 @@ background: transparent;
 
 
     .preview-product.background-1 {
-        background-color: #f0f8ff;
+      background: linear-gradient(180deg, rgba(255, 193, 144, 0.50) 0%, rgba(195, 90, 42, 0.50) 100%), #FFF;
     }
     .preview-product.background-2 {
         background-color: #faebd7;
