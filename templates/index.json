@@ -12,7 +12,7 @@
     "new_hero_gU8xyr": {
       "type": "new-hero",
       "custom_css": [
-        "h2, p, button {margin: 0;}"
+        "h2,p,button {margin: 0;}"
       ],
       "settings": {
         "heading": "Video Autoplay",
@@ -20,9 +20,41 @@
         "autoplay": false,
         "controller": false
       }
+    },
+    "new_marqee_4eDMnn": {
+      "type": "new-marqee",
+      "blocks": {
+        "text_69xta9": {
+          "type": "text",
+          "settings": {
+            "text": "Zero Açucar",
+            "text-color": ""
+          }
+        },
+        "text_XCeDRP": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text-color": ""
+          }
+        }
+      },
+      "block_order": [
+        "text_69xta9",
+        "text_XCeDRP"
+      ],
+      "settings": {
+        "height": 40,
+        "padding": 0,
+        "marquee-color": "",
+        "margin": 36,
+        "margin_desktop": 36,
+        "text-size": 16
+      }
     }
   },
   "order": [
-    "new_hero_gU8xyr"
+    "new_hero_gU8xyr",
+    "new_marqee_4eDMnn"
   ]
 }
