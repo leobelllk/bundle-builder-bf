@@ -91,14 +91,14 @@
   <div class="sticky-content">
     <div class="sticky-fc">
       <div class="sticky-disc">
-        5% OFF
+        
       </div>
       <div class="sticky-price">
-        R$249,90
+        
       </div>
     </div>
     <div class="sticky-sc">
-      <p class="total-disc">Economizou: R$49,90</p>
+      <p class="total-disc"></p>
       <div class="sticky-cta">
         SELECIONAR PRODUTOS
       </div>
@@ -294,6 +294,7 @@
         }
         selectedProductsList.appendChild(price_per_unit);
       }
+      document.querySelector('.sticky-disc').innerText = `${((1 - discount) * 100).toFixed(0)}%`; document.querySelector('.sticky-price').innerHTML = `<s>${moneyFormat(totalPrice)}</s> ${moneyFormat(totalDiscountedPrice)}`; document.querySelector('.total-disc').innerText = `${moneyFormat(totalPrice - totalDiscountedPrice)}`;
     }
 
     // Adicionar produto quando clicar no +
