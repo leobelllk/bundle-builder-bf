@@ -562,6 +562,8 @@
             return window.innerWidth <= 768; // Define uma largura máxima para dispositivos móveis (ajustável)
         }
 
+  
+        if (qty > 0) {
         if (isMobile()) {
             window.addEventListener('scroll', function() {
                 const button = document.querySelector('.mobile-sticky-button');
@@ -575,6 +577,7 @@
                 }
             });
         }
+          }
 </script>
 
 {% schema %}
