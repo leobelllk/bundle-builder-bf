@@ -1,44 +1,94 @@
 {% style %}
-  marquee {
-    background: {{ section.settings.marquee-color }};
+  #marquee-container {
+    background: #f8f6f3;
   }
 
-  marquee div {
+  #marquee {
     display: flex;
     align-items: center;
     column-gap: {{ section.settings.margin }}px;
     height: {{ section.settings.height }}px;
     padding: {{ section.settings.padding }}px 0;
     font-size: {{ section.settings.text-size }}px;
-    line-height: {{ section.settings.text-size }}px;
-    font-weight: bold;
+    line-height: 10px;
+    font-weight: 500;
+  }
+
+  @media screen and (max-width: 767px) {
+    #marquee {
+       column-gap: {{ section.settings.margin }}px;
+     }
+
+    .text-slide {
+      margin-right: 40px;
+    }
+
+
+  }
+
+  @media screen and (min-width: 768px) {
+     #marquee {
+       column-gap: {{ section.settings.margin_desktop }}px;
+     }
+    .text-slide {
+      margin-right: 100px
+    }
+    
   }
 {% endstyle %}
 
-<marquee
-  behavior="alternate"
-  width="100%"
-  scrolldelay="60">
-  <div>
+<div id="marquee-container" style="width: 100%; overflow: hidden; white-space: nowrap;">
+  <div id="marquee" style="display: inline-block; white-space: nowrap;">
     {% for i in (1..2) %}
       {% for block in section.blocks %}
-        {% if block.type == 'text' %}
-          <span
-            style="color: {{ block.settings.text-color }};">
-            {{ block.settings.text }}
-          </span>
-          {% if block.settings.icon != blank %}
-            <img
-              src="{{ block.settings.icon | image_url }}" loading="lazy"/>
-          {% endif %}
-        {% else %}
-          <img
-            src="{{ block.settings.image | image_url }}" loading="lazy" height="100%"/>
-        {% endif %}
+        <span class="text-slide" style="color: {{ block.settings.text-color }};">
+          {{ block.settings.text }}
+        </span>
+      {% endfor %}
+    {% endfor %}
+    <!-- Duplicar o conteúdo para criar o efeito de loop infinito -->
+    {% for i in (1..2) %}
+      {% for block in section.blocks %}
+        <span class="text-slide" style="color: {{ block.settings.text-color }};">
+          {{ block.settings.text }}
+        </span>
       {% endfor %}
     {% endfor %}
   </div>
-</marquee>
+</div>
+
+<script>
+  (function() {
+    var marquee = document.getElementById('marquee');
+    var container = document.getElementById('marquee-container');
+    var speed = 1; // Ajuste a velocidade conforme necessário
+    var position = 0; // Começa na posição inicial
+
+    function animate() {
+      position -= speed;
+      if (position <= -marquee.offsetWidth / 2) {
+        position = 0; // Reinicia quando atinge metade do conteúdo
+      }
+      marquee.style.transform = 'translateX(' + position + 'px)';
+      requestAnimationFrame(animate);
+    }
+
+    // Ajustar a largura do marquee no mobile
+    window.addEventListener('resize', function() {
+      if (window.innerWidth <= 768) {
+        marquee.style.width = '400%'; // Ajuste conforme necessário
+      } else {
+        marquee.style.width = 'auto';
+      }
+      position = 0; // Reiniciar a posição para evitar saltos
+    });
+
+    animate();
+  })();
+</script>
+
+
+
 
 {% schema %}
 
@@ -75,6 +125,16 @@
       {
         "type": "range",
         "id": "margin",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Espaço entre os blocos do letreiro",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "margin_desktop",
         "min": 0,
         "max": 100,
         "step": 4,
