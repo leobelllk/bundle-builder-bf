@@ -405,6 +405,8 @@ text-decoration-line: underline;
         }
         #popup.show {
             opacity: 1;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
         #popup-background {
           display: none;
