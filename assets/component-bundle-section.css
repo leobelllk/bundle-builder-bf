@@ -23,7 +23,7 @@ line-height: 20.4px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  margin: 32px 0;
+  margin: 25px 0;
 }
 
 .preview-product-wrapper {
