@@ -322,13 +322,8 @@ transform: translateX(-50%) translateY(0);
         }
 
   .popup {
-  padding: 20px;
-  width:100%;
+  width:95%;
 }
-
-  .popup-close {
-    right: 25px !important;
-  }
 
   .cart-wrapper-desktop {
     display: none;
