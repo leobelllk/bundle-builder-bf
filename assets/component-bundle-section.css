@@ -599,6 +599,7 @@ font-family: Inter;
 font-size: 16px;
 font-style: normal;
 font-weight: 700;
+   letter-spacing: -0.02rem;
 line-height: normal;
 }
 
@@ -609,6 +610,7 @@ font-size: 12px;
 font-style: normal;
 font-weight: 400;
 line-height: 12.48px;
+   letter-spacing: -0.02rem;
 }
 
 .sticky-disc {
@@ -625,6 +627,7 @@ justify-content: center;
 align-items: center;
   border-radius: 4px;
 background: #D1F8C8;
+   letter-spacing: -0.02rem;
 }
 
 .sticky-cta {
