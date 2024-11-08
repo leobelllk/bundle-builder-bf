@@ -202,6 +202,16 @@ line-height: 20.4px;
     display: none;
   }
 
+   #popup.show {
+          left: 50%;
+          transform: translate(-50%, 0%);
+        }
+        
+        #popup {
+            left: 0%;
+            transform: translate(-100%, 0%);
+        }
+
   .bundle {
     display: flex;
     gap: 50px;
