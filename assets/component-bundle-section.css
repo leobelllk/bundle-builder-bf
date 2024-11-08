@@ -657,4 +657,18 @@ background: #9BDB22;
   letter-spacing: -0.02rem;
 }
 
+.chose-size-popup {
+  color: #000;
+text-align: center;
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 24px; /* 171.429% */
+text-transform: uppercase;
+  border-radius: 44px;
+background: #9BDB22;
+  padding: 0px 32px;
+}
+
 
