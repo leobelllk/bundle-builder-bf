@@ -67,7 +67,7 @@
       <div class="column-dp halfside">
         <div class="bundle-cart-wrapper">
           <div class="resume-title">
-            <h2></h2>
+            <h2>Selecione pelo menos 1 produto</h2>
           </div>
           <div class="resume-content">
           <ul class="selected-bundle-products"></ul>
@@ -322,10 +322,7 @@
           }
 
             if (qty > 0 ) {
-      dinamicText.innerText = `Carrinho de Compras`;
-      }
-      else {
-        dinamicText.innerText = `Selecione pelo menos 1 produto`;
+      dinamicText.innerHTML = `<h2>Carrinho de Compras</h2>`;
       }
     }
 
