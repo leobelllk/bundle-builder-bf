@@ -294,12 +294,6 @@
         selectedProductsList.appendChild(price_per_unit);
       }
       
-      if (qty > 0 ) {
-      document.querySelector('.resume-title').innerHTML = `<h2>Carrinho de Compras</h2>`;
-      }
-      else {
-        document.querySelector('.resume-title').innerHTML = `<h2>Selecione pelo menos 1 produto</h2>`;
-      }
       if (qty > 3 ){
       document.querySelector('.sticky-disc').innerHTML = `${((1 - discount) * 100).toFixed(0)}% + <br>Frete Grátis`; 
         }
@@ -324,6 +318,13 @@
             });
         }
           }
+
+            if (qty > 0 ) {
+      document.querySelector('.resume-title').innerHTML = `<h2>Carrinho de Compras</h2>`;
+      }
+      else {
+        document.querySelector('.resume-title').innerHTML = `<h2>Selecione pelo menos 1 produto</h2>`;
+      }
     }
 
     // Adicionar produto quando clicar no +
