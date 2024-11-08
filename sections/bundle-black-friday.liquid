@@ -571,13 +571,13 @@
   });
 
    function openPopup() {
-            document.getElementById('popup-background').style.display = 'block';
-            document.getElementById('popup').style.display = 'block';
+            document.getElementById('popup-background').style.opacity = '1';
+            document.getElementById('popup').style.opacity = '1';
         }
 
         function closePopup() {
-            document.getElementById('popup-background').style.display = 'none';
-            document.getElementById('popup').style.display = 'none';
+            document.getElementById('popup-background').style.opacity = '0';
+            document.getElementById('popup').style.display = '0';
         }
 
         function isMobile() {
