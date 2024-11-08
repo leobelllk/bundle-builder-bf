@@ -686,7 +686,7 @@ background: #9BDB22;
 
 .close-popup {
     position: absolute;
-background: white;
+background: transparent;
   border: 1px;
             cursor: pointer;
           font-size: 14px;
